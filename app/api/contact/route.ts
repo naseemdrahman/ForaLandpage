@@ -3,56 +3,51 @@ import { writeFile, readFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import path from 'path';
 
-// Simple waitlist storage (for development)
+// Simple contact storage (for development)
 // For production, replace this with a database like Vercel Postgres, Supabase, or Vercel KV
-const WAITLIST_STORAGE_PATH = path.join(process.cwd(), 'data', 'waitlist.json');
+const CONTACT_STORAGE_PATH = path.join(process.cwd(), 'data', 'contacts.json');
 
-interface WaitlistEntry {
+interface ContactData {
   name: string;
   email: string;
+  message?: string;
   timestamp: string;
 }
 
 async function ensureDataDir() {
-  const dataDir = path.dirname(WAITLIST_STORAGE_PATH);
+  const dataDir = path.dirname(CONTACT_STORAGE_PATH);
   if (!existsSync(dataDir)) {
     await mkdir(dataDir, { recursive: true });
   }
 }
 
-async function readWaitlist(): Promise<WaitlistEntry[]> {
+async function readContacts(): Promise<ContactData[]> {
   try {
     await ensureDataDir();
-    if (existsSync(WAITLIST_STORAGE_PATH)) {
-      const data = await readFile(WAITLIST_STORAGE_PATH, 'utf-8');
+    if (existsSync(CONTACT_STORAGE_PATH)) {
+      const data = await readFile(CONTACT_STORAGE_PATH, 'utf-8');
       return JSON.parse(data);
     }
     return [];
   } catch (error) {
-    console.error('Error reading waitlist:', error);
+    console.error('Error reading contacts:', error);
     return [];
   }
 }
 
-async function saveWaitlistEntry(entry: WaitlistEntry): Promise<boolean> {
+async function saveContact(contact: ContactData): Promise<boolean> {
   try {
     await ensureDataDir();
-    const entries = await readWaitlist();
+    const contacts = await readContacts();
     
-    // Check if email already exists
-    const emailExists = entries.some(e => e.email.toLowerCase().trim() === entry.email.toLowerCase().trim());
-    if (emailExists) {
-      return false; // Email already exists
-    }
-    
-    // Add new entry
-    entries.push(entry);
+    // Add new contact
+    contacts.push(contact);
     
     // Save to file
-    await writeFile(WAITLIST_STORAGE_PATH, JSON.stringify(entries, null, 2), 'utf-8');
+    await writeFile(CONTACT_STORAGE_PATH, JSON.stringify(contacts, null, 2), 'utf-8');
     return true;
   } catch (error) {
-    console.error('Error saving waitlist entry:', error);
+    console.error('Error saving contact:', error);
     throw error;
   }
 }
@@ -60,7 +55,7 @@ async function saveWaitlistEntry(entry: WaitlistEntry): Promise<boolean> {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, email } = body;
+    const { name, email, message } = body;
 
     // Validate required fields
     if (!name || typeof name !== 'string' || name.trim().length === 0) {
@@ -86,28 +81,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Save waitlist entry
-    const entry: WaitlistEntry = {
+    // Save contact
+    const contactData: ContactData = {
       name: name.trim(),
       email: email.toLowerCase().trim(),
+      message: message?.trim() || '',
       timestamp: new Date().toISOString(),
     };
 
-    const saved = await saveWaitlistEntry(entry);
-    
-    if (!saved) {
-      return NextResponse.json(
-        { error: 'Email already registered' },
-        { status: 409 }
-      );
-    }
+    await saveContact(contactData);
 
     return NextResponse.json(
-      { message: 'Successfully joined waitlist!', entry },
+      { message: 'Contact information received! We\'ll be in touch soon.', contact: contactData },
       { status: 200 }
     );
   } catch (error) {
-    console.error('Waitlist API error:', error);
+    console.error('Contact API error:', error);
     return NextResponse.json(
       { error: 'Failed to process request. Please try again later.' },
       { status: 500 }
@@ -115,14 +104,14 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Optional: GET endpoint to view waitlist (remove in production or add authentication)
+// Optional: GET endpoint to view contacts (remove in production or add authentication)
 export async function GET() {
   try {
-    const entries = await readWaitlist();
-    return NextResponse.json({ entries, count: entries.length });
+    const contacts = await readContacts();
+    return NextResponse.json({ contacts, count: contacts.length });
   } catch (error) {
     return NextResponse.json(
-      { error: 'Failed to retrieve waitlist' },
+      { error: 'Failed to retrieve contacts' },
       { status: 500 }
     );
   }

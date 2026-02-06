@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 // Navbar Component
-function Navbar({ onJoinWaitlistClick }: { onJoinWaitlistClick: () => void }) {
+function Navbar({ onContactClick }: { onContactClick: () => void }) {
   return (
     <nav className="sticky top-0 z-50 bg-black/80 backdrop-blur-sm border-b border-zinc-800">
       <div className="w-full flex items-center justify-between h-20 lg:h-24">
@@ -13,10 +13,10 @@ function Navbar({ onJoinWaitlistClick }: { onJoinWaitlistClick: () => void }) {
         </Link>
         <div className="pr-4 sm:pr-6 lg:pr-8">
           <button
-            onClick={onJoinWaitlistClick}
-            className="px-6 py-3 lg:px-8 lg:py-3 bg-violet-600 hover:bg-violet-700 text-white text-base lg:text-lg font-medium transition-colors border border-violet-600 hover:border-violet-700"
+            onClick={onContactClick}
+            className="px-6 py-3 lg:px-8 lg:py-3 border border-zinc-800 hover:border-zinc-700 text-white text-base lg:text-lg font-medium transition-colors bg-zinc-950 hover:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-black"
           >
-            Join Waitlist
+            Contact us
           </button>
         </div>
       </div>
@@ -309,15 +309,6 @@ function HeroDebateVisual() {
   );
 }
 
-// Stat Pill Component
-function StatPill({ label }: { label: string }) {
-  return (
-    <div className="px-4 py-2 border border-zinc-800 bg-zinc-950 rounded-sm">
-              <span className="text-zinc-100 text-sm">{label}</span>
-    </div>
-  );
-}
-
 // Scroll Indicator Component
 function ScrollIndicator() {
   return (
@@ -343,7 +334,7 @@ function ScrollIndicator() {
 }
 
 // Hero Section
-function HeroSection({ onJoinWaitlistClick }: { onJoinWaitlistClick: () => void }) {
+function HeroSection({ onWaitlistClick }: { onWaitlistClick: () => void }) {
   const [showDemo, setShowDemo] = useState(false);
 
   return (
@@ -355,19 +346,22 @@ function HeroSection({ onJoinWaitlistClick }: { onJoinWaitlistClick: () => void 
             <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
               Debate like a sport.
             </h1>
-            <p className="text-xl md:text-2xl text-zinc-100 max-w-2xl mx-auto mb-10">
-              Competitive player vs player debates with skill-based scoring. Challenge opponents, prove your arguments, and climb the leaderboards.
+            <p className="text-xl md:text-2xl text-zinc-100 max-w-2xl mx-auto mb-3">
+              Ranked debates with skill-based scoring. Challenge opponents, get evaluated on clarity and logic, and climb the leaderboard.
+            </p>
+            <p className="text-sm md:text-base text-zinc-300 max-w-2xl mx-auto mb-10">
+              Unlike forums or comment sections, FORA is structured, ranked, and skill-based.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
               <button
-                onClick={onJoinWaitlistClick}
-                className="px-8 py-3 bg-violet-600 hover:bg-violet-700 text-white font-medium transition-colors border border-violet-600 hover:border-violet-700"
+                onClick={onWaitlistClick}
+                className="px-8 py-3 bg-violet-600 hover:bg-violet-700 text-white font-medium transition-colors border border-violet-600 hover:border-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-black"
               >
                 Join Waitlist
               </button>
               <button
                 onClick={() => setShowDemo(true)}
-                className="px-8 py-3 border border-zinc-800 hover:border-zinc-700 text-white font-medium transition-colors bg-zinc-950 hover:bg-zinc-900"
+                className="px-8 py-3 border border-zinc-800 hover:border-zinc-700 text-white font-medium transition-colors bg-zinc-950 hover:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-black"
               >
                 Watch Demo
               </button>
@@ -390,7 +384,7 @@ function HeroSection({ onJoinWaitlistClick }: { onJoinWaitlistClick: () => void 
           >
             <button
               onClick={() => setShowDemo(false)}
-              className="absolute top-4 right-4 text-zinc-200 hover:text-white transition-colors"
+              className="absolute top-4 right-4 text-zinc-200 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-violet-600 rounded"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -408,19 +402,22 @@ function HeroSection({ onJoinWaitlistClick }: { onJoinWaitlistClick: () => void 
 
 // Social Proof Section
 function SocialProof() {
-  const logos = ['Thinkers', 'Students', 'Competitors', 'Debaters', 'Analysts', 'Scholars'];
+  const chips = ['Debate teams', 'Student orgs', 'Interview prep', 'Builders'];
 
   return (
     <section className="py-16 bg-zinc-950/80 backdrop-blur-sm border-y border-zinc-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <p className="text-center text-zinc-100 text-sm mb-8">Built for thinkers, students, and competitors</p>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-          {logos.map((logo, idx) => (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold mb-3">Built for competitive thinkers.</h2>
+        <p className="text-zinc-100 mb-8 max-w-2xl mx-auto">
+          Students, debaters, founders, and anyone who likes winning with reasoning.
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          {chips.map((chip, idx) => (
             <div
               key={idx}
-              className="border border-zinc-800 bg-black p-6 flex items-center justify-center"
+              className="px-4 py-2 border border-zinc-800 bg-black/50 rounded-sm"
             >
-              <span className="text-zinc-200 text-sm uppercase tracking-wide">{logo}</span>
+              <span className="text-zinc-200 text-sm">{chip}</span>
             </div>
           ))}
         </div>
@@ -433,13 +430,13 @@ function SocialProof() {
 function StepIcon({ step }: { step: number }) {
   const icons = [
     <svg key="1" className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-    </svg>,
-    <svg key="2" className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
     </svg>,
-    <svg key="3" className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg key="2" className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+    </svg>,
+    <svg key="3" className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
     </svg>,
   ];
 
@@ -454,16 +451,16 @@ function StepIcon({ step }: { step: number }) {
 function HowItWorks() {
   const steps = [
     {
-      title: 'Choose a topic',
-      description: 'Select from curated debate topics across politics, philosophy, science, and more.',
+      title: 'Debate',
+      description: 'Challenge a player or practice against AI. Choose your topic and make your case.',
     },
     {
-      title: 'Challenge another player',
-      description: 'Challenge any player to a turn-based debate. Take your time crafting arguments and respond asynchronously.',
+      title: 'Get scored',
+      description: 'Receive rubric-based evaluation across clarity, logic, evidence, and civility.',
     },
     {
-      title: 'Receive score + ranking',
-      description: 'Get evaluated on clarity, logic, evidence, and civility. Climb the leaderboards.',
+      title: 'Climb ranks',
+      description: 'Your rating adjusts with each debate. Compete for top spots on global and topic-based leaderboards.',
     },
   ];
 
@@ -490,7 +487,8 @@ function ModesSection() {
   const modes = [
     {
       title: 'Challenge Players',
-      description: 'Challenge any player to a turn-based debate. Take your time crafting responses and compete on skill.',
+      description: 'Async turn-based debates. Challenge any player and compete on skill.',
+      note: 'Async turn-based. No timers. No pressure.',
       icon: (
         <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -499,7 +497,8 @@ function ModesSection() {
     },
     {
       title: 'Practice Mode',
-      description: 'Practice against AI opponents to sharpen your skills before challenging real players.',
+      description: 'AI opponents with adjustable difficulty. Sharpen your skills before competing.',
+      note: 'Practice privately before playing ranked.',
       icon: (
         <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
@@ -508,7 +507,7 @@ function ModesSection() {
     },
     {
       title: 'Leaderboards',
-      description: 'Global and topic-based rankings. Track your progress, see where you stand, and compete for the top spots.',
+      description: 'Global and topic-based rankings. Track progress and compete for top spots.',
       icon: (
         <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
@@ -529,7 +528,15 @@ function ModesSection() {
             >
               <div className="text-violet-500 mb-4">{mode.icon}</div>
               <h3 className="text-2xl font-semibold mb-3">{mode.title}</h3>
-              <p className="text-zinc-100">{mode.description}</p>
+              <p className="text-zinc-100 mb-3">{mode.description}</p>
+              {mode.note && (
+                <div className="flex items-start gap-2 pt-3 border-t border-zinc-800">
+                  <svg className="w-4 h-4 text-violet-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <p className="text-xs text-zinc-400">{mode.note}</p>
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -572,17 +579,43 @@ function ScoringSystem() {
     <section id="scoring" className="py-24 bg-black/80 backdrop-blur-sm">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">Scoring System</h2>
-        <p className="text-center text-zinc-100 mb-12 max-w-2xl mx-auto">
+        <p className="text-center text-zinc-100 mb-3 max-w-2xl mx-auto">
           Every debate is evaluated across four dimensions. Fair, transparent, and skill-based.
         </p>
+        <div className="flex items-center justify-center gap-2 mb-12">
+          <svg className="w-4 h-4 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <p className="text-sm text-zinc-300">Fixed rubric. Same criteria for everyone.</p>
+        </div>
         <div className="border border-zinc-800 bg-zinc-950 p-8 md:p-12">
           {dimensions.map((dim, idx) => (
             <ScoringBar key={idx} label={dim.label} value={dim.value} color={dim.color} />
           ))}
-          <div className="mt-8 pt-8 border-t border-zinc-800">
-            <p className="text-sm text-zinc-200">
-              Scores are calculated using a combination of AI analysis and peer review. No black-box algorithms.
-            </p>
+          <div className="mt-6 pt-6 border-t border-zinc-800">
+            <div className="flex items-start gap-2 mb-3">
+              <svg className="w-4 h-4 text-violet-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p className="text-sm text-zinc-300">Civility is rewarded. Abuse is penalized.</p>
+            </div>
+            <div className="bg-black/50 border border-zinc-800 p-6 rounded-sm">
+              <h3 className="text-lg font-semibold mb-3">Trust & Fairness</h3>
+              <ul className="space-y-2 text-sm text-zinc-200">
+                <li className="flex items-start">
+                  <span className="text-violet-500 mr-2">•</span>
+                  <span>Fixed rubric, applied consistently</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-violet-500 mr-2">•</span>
+                  <span>Score breakdown shown after each debate</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-violet-500 mr-2">•</span>
+                  <span>Civility is rewarded; harassment is penalized</span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -593,17 +626,23 @@ function ScoringSystem() {
 // Leaderboard Preview Section
 function LeaderboardPreview() {
   const sampleData = [
-    { rank: 1, username: 'Socrates', rating: 2450, winRate: '87%', debates: 142 },
-    { rank: 2, username: 'Aristotle', rating: 2380, winRate: '84%', debates: 156 },
-    { rank: 3, username: 'Plato', rating: 2320, winRate: '81%', debates: 128 },
-    { rank: 4, username: 'Kant', rating: 2280, winRate: '79%', debates: 134 },
-    { rank: 5, username: 'Nietzsche', rating: 2240, winRate: '76%', debates: 119 },
+    { rank: 1, username: 'Socrates', rating: 2450, winRate: '87%', debates: 142, topic: 'Ethics', streak: 'W5' },
+    { rank: 2, username: 'AvaR', rating: 2380, winRate: '84%', debates: 156, topic: 'Politics', streak: 'W3' },
+    { rank: 3, username: 'NYUDebate', rating: 2320, winRate: '81%', debates: 128, topic: 'Science', streak: 'W2' },
+    { rank: 4, username: 'FounderDan', rating: 2280, winRate: '79%', debates: 134, topic: 'Technology', streak: 'W4' },
+    { rank: 5, username: 'Plato', rating: 2240, winRate: '76%', debates: 119, topic: 'Philosophy', streak: 'W1' },
   ];
 
   return (
     <section id="leaderboard" className="py-24 bg-zinc-950/80 backdrop-blur-sm border-y border-zinc-800">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-16">Leaderboard</h2>
+        <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">Leaderboard</h2>
+        <div className="flex items-center justify-center gap-2 mb-16">
+          <svg className="w-4 h-4 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <p className="text-sm text-zinc-300">Ranks update from scored debates only.</p>
+        </div>
         <div className="border border-zinc-800 bg-black overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -619,10 +658,13 @@ function LeaderboardPreview() {
                     Rating
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-zinc-200 uppercase tracking-wider">
+                    Topic
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-zinc-200 uppercase tracking-wider">
                     Win Rate
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-zinc-200 uppercase tracking-wider">
-                    Debates
+                    Streak
                   </th>
                 </tr>
               </thead>
@@ -634,8 +676,9 @@ function LeaderboardPreview() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap font-medium">{row.username}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-zinc-100">{row.rating}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-zinc-200">{row.topic}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-zinc-100">{row.winRate}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-zinc-200">{row.debates}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-violet-400 font-medium">{row.streak}</td>
                   </tr>
                 ))}
               </tbody>
@@ -655,7 +698,7 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
     <div className="border border-zinc-800 bg-zinc-950">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-zinc-900 transition-colors"
+        className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-zinc-900 transition-colors focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-inset"
       >
         <span className="font-medium">{question}</span>
         <svg
@@ -723,45 +766,50 @@ function FAQ() {
   );
 }
 
-// Waitlist Modal Component
-function WaitlistModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+// Contact Modal Component
+// Contact Modal Component (with message field)
+function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [statusMessage, setStatusMessage] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('loading');
-    setMessage('');
+    setStatusMessage('');
 
     try {
-      const response = await fetch('/api/waitlist', {
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ name, email, message }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
         setStatus('success');
-        setMessage('Successfully joined the waitlist! We\'ll be in touch soon.');
+        setStatusMessage('Thank you! We\'ll be in touch soon.');
+        setName('');
         setEmail('');
+        setMessage('');
         // Auto-close after 2 seconds on success
         setTimeout(() => {
           onClose();
           setStatus('idle');
-          setMessage('');
+          setStatusMessage('');
         }, 2000);
       } else {
         setStatus('error');
-        setMessage(data.error || 'Something went wrong. Please try again.');
+        setStatusMessage(data.error || 'Something went wrong. Please try again.');
       }
     } catch (error) {
       setStatus('error');
-      setMessage('Failed to connect. Please try again later.');
+      setStatusMessage('Failed to connect. Please try again later.');
     }
   };
 
@@ -778,43 +826,60 @@ function WaitlistModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-zinc-200 hover:text-white transition-colors"
+          className="absolute top-4 right-4 text-zinc-200 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-violet-600 rounded"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
-        <h2 className="text-3xl font-bold mb-2">Join the Arena</h2>
+        <h2 className="text-3xl font-bold mb-2">Contact us</h2>
         <p className="text-zinc-300 mb-6">
-          Be among the first to compete. Join the waitlist for early access.
+          Get in touch with any questions or feedback.
         </p>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Your name"
+            required
+            disabled={status === 'loading'}
+            className="w-full px-6 py-3 bg-black border border-zinc-800 text-white placeholder-zinc-400 focus:outline-none focus:border-zinc-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            autoFocus
+          />
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
+            placeholder="Your email"
             required
             disabled={status === 'loading'}
-            className="w-full px-6 py-3 bg-black border border-zinc-800 text-white placeholder-zinc-400 focus:outline-none focus:border-violet-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            autoFocus
+            className="w-full px-6 py-3 bg-black border border-zinc-800 text-white placeholder-zinc-400 focus:outline-none focus:border-zinc-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          />
+          <textarea
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Message (optional)"
+            rows={4}
+            disabled={status === 'loading'}
+            className="w-full px-6 py-3 bg-black border border-zinc-800 text-white placeholder-zinc-400 focus:outline-none focus:border-zinc-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed resize-none"
           />
           <button
             type="submit"
             disabled={status === 'loading'}
-            className="w-full px-8 py-3 bg-violet-600 hover:bg-violet-700 text-white font-medium transition-colors border border-violet-600 hover:border-violet-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full px-8 py-3 border border-zinc-800 hover:border-zinc-700 text-white font-medium transition-colors bg-zinc-950 hover:bg-zinc-900 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-zinc-900"
           >
-            {status === 'loading' ? 'Joining...' : 'Join Waitlist'}
+            {status === 'loading' ? 'Sending...' : 'Send'}
           </button>
-          {message && (
+          {statusMessage && (
             <div
               className={`px-4 py-3 rounded-sm border ${
                 status === 'success'
-                  ? 'bg-violet-600/20 border-violet-600 text-violet-300'
+                  ? 'bg-zinc-800/50 border-zinc-700 text-zinc-200'
                   : 'bg-red-600/20 border-red-600 text-red-300'
               }`}
             >
-              {message}
+              {statusMessage}
             </div>
           )}
         </form>
@@ -823,16 +888,17 @@ function WaitlistModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
   );
 }
 
-// Waitlist Section
-function WaitlistSection() {
+// Waitlist Modal Component (name + email only, purple styling)
+function WaitlistModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [message, setMessage] = useState('');
+  const [statusMessage, setStatusMessage] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('loading');
-    setMessage('');
+    setStatusMessage('');
 
     try {
       const response = await fetch('/api/waitlist', {
@@ -840,52 +906,83 @@ function WaitlistSection() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ name, email }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
         setStatus('success');
-        setMessage('Successfully joined the waitlist! We\'ll be in touch soon.');
+        setStatusMessage('Successfully joined the waitlist! We\'ll be in touch soon.');
+        setName('');
         setEmail('');
+        // Auto-close after 2 seconds on success
+        setTimeout(() => {
+          onClose();
+          setStatus('idle');
+          setStatusMessage('');
+        }, 2000);
       } else {
         setStatus('error');
-        setMessage(data.error || 'Something went wrong. Please try again.');
+        setStatusMessage(data.error || 'Something went wrong. Please try again.');
       }
     } catch (error) {
       setStatus('error');
-      setMessage('Failed to connect. Please try again later.');
+      setStatusMessage('Failed to connect. Please try again later.');
     }
   };
 
+  if (!isOpen) return null;
+
   return (
-    <section id="waitlist" className="py-32 bg-zinc-950/80 backdrop-blur-sm border-y border-zinc-800">
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="text-5xl md:text-6xl font-bold mb-6">Join the Arena</h2>
-        <p className="text-xl text-zinc-100 mb-12">
-          Be among the first to compete. Join the waitlist for early access.
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <div
+        className="bg-zinc-900 border border-violet-600/30 p-8 max-w-md w-full mx-4 relative"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-zinc-200 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-violet-600 rounded"
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        <h2 className="text-3xl font-bold mb-2">Join Waitlist</h2>
+        <p className="text-zinc-300 mb-6">
+          Enter your name and email to join the waitlist.
         </p>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-md mx-auto">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              required
-              disabled={status === 'loading'}
-              className="flex-1 px-6 py-3 bg-black border border-zinc-800 text-white placeholder-zinc-400 focus:outline-none focus:border-violet-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            />
-            <button
-              type="submit"
-              disabled={status === 'loading'}
-              className="px-8 py-3 bg-violet-600 hover:bg-violet-700 text-white font-medium transition-colors border border-violet-600 hover:border-violet-700 whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {status === 'loading' ? 'Joining...' : 'Join Waitlist'}
-            </button>
-          </div>
-          {message && (
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Your name"
+            required
+            disabled={status === 'loading'}
+            className="w-full px-6 py-3 bg-black border border-violet-600/30 text-white placeholder-zinc-400 focus:outline-none focus:border-violet-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            autoFocus
+          />
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Your email"
+            required
+            disabled={status === 'loading'}
+            className="w-full px-6 py-3 bg-black border border-violet-600/30 text-white placeholder-zinc-400 focus:outline-none focus:border-violet-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          />
+          <button
+            type="submit"
+            disabled={status === 'loading'}
+            className="w-full px-8 py-3 bg-violet-600 hover:bg-violet-700 text-white font-medium transition-colors border border-violet-600 hover:border-violet-700 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-zinc-900"
+          >
+            {status === 'loading' ? 'Joining...' : 'Join Waitlist'}
+          </button>
+          {statusMessage && (
             <div
               className={`px-4 py-3 rounded-sm border ${
                 status === 'success'
@@ -893,14 +990,15 @@ function WaitlistSection() {
                   : 'bg-red-600/20 border-red-600 text-red-300'
               }`}
             >
-              {message}
+              {statusMessage}
             </div>
           )}
         </form>
       </div>
-    </section>
+    </div>
   );
 }
+
 
 // Footer Component
 function Footer() {
@@ -916,13 +1014,13 @@ function Footer() {
             <div className="flex items-center gap-6">
               <Link
                 href="/privacy"
-                className="text-zinc-300 hover:text-white transition-colors text-sm"
+                className="text-zinc-300 hover:text-white transition-colors text-sm focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-black rounded"
               >
                 Privacy Policy
               </Link>
               <Link
                 href="/terms"
-                className="text-zinc-300 hover:text-white transition-colors text-sm"
+                className="text-zinc-300 hover:text-white transition-colors text-sm focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-black rounded"
               >
                 Terms of Service
               </Link>
@@ -934,8 +1032,29 @@ function Footer() {
   );
 }
 
+// Waitlist Section
+function WaitlistSection({ onWaitlistClick }: { onWaitlistClick: () => void }) {
+  return (
+    <section id="waitlist" className="py-32 bg-zinc-950/80 backdrop-blur-sm border-y border-zinc-800">
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 className="text-5xl md:text-6xl font-bold mb-6">Get early access.</h2>
+        <p className="text-xl text-zinc-100 mb-12">
+          Join the waitlist. We'll onboard in waves.
+        </p>
+        <button
+          onClick={onWaitlistClick}
+          className="px-8 py-3 bg-violet-600 hover:bg-violet-700 text-white font-medium transition-colors border border-violet-600 hover:border-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-zinc-950"
+        >
+          Join Waitlist
+        </button>
+      </div>
+    </section>
+  );
+}
+
 // Main Page Component
 export default function Page() {
+  const [showContactModal, setShowContactModal] = useState(false);
   const [showWaitlistModal, setShowWaitlistModal] = useState(false);
 
   // Prevent auto-scroll to hash on page load
@@ -949,9 +1068,10 @@ export default function Page() {
   }, []);
 
   return (
-    <div className="min-h-screen animated-gradient text-white">
-      <Navbar onJoinWaitlistClick={() => setShowWaitlistModal(true)} />
-      <HeroSection onJoinWaitlistClick={() => setShowWaitlistModal(true)} />
+    <div className="min-h-screen animated-gradient text-white" style={{ scrollBehavior: 'smooth' }}>
+      <Navbar onContactClick={() => setShowContactModal(true)} />
+      <HeroSection onWaitlistClick={() => setShowWaitlistModal(true)} />
+      <ContactModal isOpen={showContactModal} onClose={() => setShowContactModal(false)} />
       <WaitlistModal isOpen={showWaitlistModal} onClose={() => setShowWaitlistModal(false)} />
       <SocialProof />
       <HowItWorks />
@@ -959,7 +1079,7 @@ export default function Page() {
       <ScoringSystem />
       <LeaderboardPreview />
       <FAQ />
-      <WaitlistSection />
+      <WaitlistSection onWaitlistClick={() => setShowWaitlistModal(true)} />
       <Footer />
     </div>
   );
