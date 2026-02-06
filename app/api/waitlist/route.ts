@@ -1,11 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFile, readFile, mkdir } from 'fs/promises';
-import { existsSync } from 'fs';
-import path from 'path';
-
-// Simple waitlist storage (for development)
-// For production, replace this with a database like Vercel Postgres, Supabase, or Vercel KV
-const WAITLIST_STORAGE_PATH = path.join(process.cwd(), 'data', 'waitlist.json');
+import { appendToSheet, emailExistsInSheet } from '@/lib/googleSheets';
 
 interface WaitlistEntry {
   name: string;
@@ -13,43 +7,29 @@ interface WaitlistEntry {
   timestamp: string;
 }
 
-async function ensureDataDir() {
-  const dataDir = path.dirname(WAITLIST_STORAGE_PATH);
-  if (!existsSync(dataDir)) {
-    await mkdir(dataDir, { recursive: true });
-  }
-}
-
-async function readWaitlist(): Promise<WaitlistEntry[]> {
-  try {
-    await ensureDataDir();
-    if (existsSync(WAITLIST_STORAGE_PATH)) {
-      const data = await readFile(WAITLIST_STORAGE_PATH, 'utf-8');
-      return JSON.parse(data);
-    }
-    return [];
-  } catch (error) {
-    console.error('Error reading waitlist:', error);
-    return [];
-  }
-}
-
 async function saveWaitlistEntry(entry: WaitlistEntry): Promise<boolean> {
   try {
-    await ensureDataDir();
-    const entries = await readWaitlist();
+    const spreadsheetId = process.env.GOOGLE_WAITLIST_SHEET_ID;
     
-    // Check if email already exists
-    const emailExists = entries.some(e => e.email.toLowerCase().trim() === entry.email.toLowerCase().trim());
-    if (emailExists) {
+    if (!spreadsheetId) {
+      console.error('GOOGLE_WAITLIST_SHEET_ID not configured');
+      return false;
+    }
+
+    // Check if email already exists in Google Sheet
+    const exists = await emailExistsInSheet(spreadsheetId, 'Waitlist!B:B', entry.email);
+    if (exists) {
       return false; // Email already exists
     }
-    
-    // Add new entry
-    entries.push(entry);
-    
-    // Save to file
-    await writeFile(WAITLIST_STORAGE_PATH, JSON.stringify(entries, null, 2), 'utf-8');
+
+    // Append to Google Sheet
+    // Format: [Timestamp, Name, Email]
+    await appendToSheet(
+      spreadsheetId,
+      'Waitlist!A:C',
+      [entry.timestamp, entry.name, entry.email]
+    );
+
     return true;
   } catch (error) {
     console.error('Error saving waitlist entry:', error);
@@ -115,15 +95,3 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Optional: GET endpoint to view waitlist (remove in production or add authentication)
-export async function GET() {
-  try {
-    const entries = await readWaitlist();
-    return NextResponse.json({ entries, count: entries.length });
-  } catch (error) {
-    return NextResponse.json(
-      { error: 'Failed to retrieve waitlist' },
-      { status: 500 }
-    );
-  }
-}

@@ -1,11 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFile, readFile, mkdir } from 'fs/promises';
-import { existsSync } from 'fs';
-import path from 'path';
-
-// Simple contact storage (for development)
-// For production, replace this with a database like Vercel Postgres, Supabase, or Vercel KV
-const CONTACT_STORAGE_PATH = path.join(process.cwd(), 'data', 'contacts.json');
+import { appendToSheet } from '@/lib/googleSheets';
 
 interface ContactData {
   name: string;
@@ -14,37 +8,23 @@ interface ContactData {
   timestamp: string;
 }
 
-async function ensureDataDir() {
-  const dataDir = path.dirname(CONTACT_STORAGE_PATH);
-  if (!existsSync(dataDir)) {
-    await mkdir(dataDir, { recursive: true });
-  }
-}
-
-async function readContacts(): Promise<ContactData[]> {
-  try {
-    await ensureDataDir();
-    if (existsSync(CONTACT_STORAGE_PATH)) {
-      const data = await readFile(CONTACT_STORAGE_PATH, 'utf-8');
-      return JSON.parse(data);
-    }
-    return [];
-  } catch (error) {
-    console.error('Error reading contacts:', error);
-    return [];
-  }
-}
-
 async function saveContact(contact: ContactData): Promise<boolean> {
   try {
-    await ensureDataDir();
-    const contacts = await readContacts();
+    const spreadsheetId = process.env.GOOGLE_CONTACT_SHEET_ID;
     
-    // Add new contact
-    contacts.push(contact);
-    
-    // Save to file
-    await writeFile(CONTACT_STORAGE_PATH, JSON.stringify(contacts, null, 2), 'utf-8');
+    if (!spreadsheetId) {
+      console.error('GOOGLE_CONTACT_SHEET_ID not configured');
+      return false;
+    }
+
+    // Append to Google Sheet
+    // Format: [Timestamp, Name, Email, Message]
+    await appendToSheet(
+      spreadsheetId,
+      'Contacts!A:D',
+      [contact.timestamp, contact.name, contact.email, contact.message || '']
+    );
+
     return true;
   } catch (error) {
     console.error('Error saving contact:', error);
@@ -104,15 +84,3 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Optional: GET endpoint to view contacts (remove in production or add authentication)
-export async function GET() {
-  try {
-    const contacts = await readContacts();
-    return NextResponse.json({ contacts, count: contacts.length });
-  } catch (error) {
-    return NextResponse.json(
-      { error: 'Failed to retrieve contacts' },
-      { status: 500 }
-    );
-  }
-}

@@ -2,17 +2,17 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'FORA - Debate like a sport',
+  title: 'FORA',
   description: 'Competitive player vs player debates with skill-based scoring. Challenge opponents, prove your arguments, and climb the leaderboards.',
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://fora.app'),
   openGraph: {
-    title: 'FORA - Debate like a sport',
+    title: 'FORA',
     description: 'Competitive player vs player debates with skill-based scoring. Challenge opponents, prove your arguments, and climb the leaderboards.',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'FORA - Debate like a sport',
+    title: 'FORA',
     description: 'Competitive player vs player debates with skill-based scoring.',
   },
 }
