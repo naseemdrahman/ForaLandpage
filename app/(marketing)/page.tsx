@@ -37,23 +37,6 @@ function MicrophoneIcon({ x, y, scale = 1, flip = false }: { x: number; y: numbe
       <line x1={x - 10 * scale} y1={y - 30 * scale} x2={x + 10 * scale} y2={y - 30 * scale} stroke="#8B5CF6" strokeWidth="1.5" opacity="0.6" />
       <line x1={x - 10 * scale} y1={y - 20 * scale} x2={x + 10 * scale} y2={y - 20 * scale} stroke="#8B5CF6" strokeWidth="1.5" opacity="0.6" />
       <line x1={x - 10 * scale} y1={y - 10 * scale} x2={x + 10 * scale} y2={y - 10 * scale} stroke="#8B5CF6" strokeWidth="1.5" opacity="0.6" />
-      {/* Sound waves coming from mic */}
-      <path
-        d={`M ${x + 20 * scale} ${y - 20 * scale} Q ${x + 35 * scale} ${y - 20 * scale} ${x + 35 * scale} ${y - 5 * scale} Q ${x + 35 * scale} ${y + 10 * scale} ${x + 20 * scale} ${y + 10 * scale}`}
-        fill="none"
-        stroke="#8B5CF6"
-        strokeWidth="1.5"
-        opacity="0.4"
-        strokeLinecap="round"
-      />
-      <path
-        d={`M ${x + 25 * scale} ${y - 25 * scale} Q ${x + 45 * scale} ${y - 25 * scale} ${x + 45 * scale} ${y - 5 * scale} Q ${x + 45 * scale} ${y + 15 * scale} ${x + 25 * scale} ${y + 15 * scale}`}
-        fill="none"
-        stroke="#8B5CF6"
-        strokeWidth="1.5"
-        opacity="0.3"
-        strokeLinecap="round"
-      />
     </g>
   );
 }
@@ -62,8 +45,8 @@ function MicrophoneIcon({ x, y, scale = 1, flip = false }: { x: number; y: numbe
 function FloatingBackgroundElements() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-      {/* Floating Microphones - More distributed across the page */}
-      <div className="absolute top-20 left-[5%] animate-bounce-horizontal-1 opacity-20">
+      {/* Floating Microphones - Spread out, avoiding center (35-65% horizontal, 40-60% vertical) */}
+      <div className="absolute top-[5%] left-[2%] animate-bounce-horizontal-1 opacity-20">
         <svg width="40" height="60" viewBox="0 0 40 60" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="5" y="5" width="30" height="40" rx="15" stroke="#8B5CF6" strokeWidth="1.5" />
           <rect x="12" y="45" width="16" height="15" rx="2" stroke="#8B5CF6" strokeWidth="1" />
@@ -72,7 +55,7 @@ function FloatingBackgroundElements() {
         </svg>
       </div>
       
-      <div className="absolute top-40 right-[10%] animate-bounce-horizontal-2 opacity-15">
+      <div className="absolute top-[8%] right-[2%] animate-bounce-horizontal-2 opacity-15">
         <svg width="35" height="55" viewBox="0 0 35 55" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="5" y="5" width="25" height="35" rx="12" stroke="#7C3AED" strokeWidth="1.5" />
           <rect x="12" y="40" width="11" height="12" rx="2" stroke="#7C3AED" strokeWidth="1" />
@@ -80,7 +63,7 @@ function FloatingBackgroundElements() {
         </svg>
       </div>
 
-      <div className="absolute bottom-32 left-[15%] animate-bounce-diagonal-1 opacity-18">
+      <div className="absolute bottom-[5%] left-[2%] animate-bounce-diagonal-1 opacity-18">
         <svg width="30" height="50" viewBox="0 0 30 50" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="5" y="5" width="20" height="30" rx="10" stroke="#6D28D9" strokeWidth="1.5" />
           <rect x="10" y="35" width="10" height="12" rx="2" stroke="#6D28D9" strokeWidth="1" />
@@ -88,14 +71,14 @@ function FloatingBackgroundElements() {
         </svg>
       </div>
 
-      <div className="absolute top-60 right-[20%] animate-bounce-horizontal-3 opacity-12">
+      <div className="absolute top-[12%] right-[30%] animate-bounce-horizontal-3 opacity-12">
         <svg width="25" height="45" viewBox="0 0 25 45" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="5" y="5" width="15" height="25" rx="7" stroke="#8B5CF6" strokeWidth="1.5" />
           <rect x="9" y="30" width="7" height="10" rx="2" stroke="#8B5CF6" strokeWidth="1" />
         </svg>
       </div>
 
-      <div className="absolute top-[30%] left-[25%] animate-bounce-diagonal-2 opacity-16">
+      <div className="absolute top-[22%] left-[2%] animate-bounce-diagonal-2 opacity-16">
         <svg width="32" height="52" viewBox="0 0 32 52" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="6" y="6" width="20" height="32" rx="10" stroke="#7C3AED" strokeWidth="1.5" />
           <rect x="11" y="38" width="10" height="12" rx="2" stroke="#7C3AED" strokeWidth="1" />
@@ -103,7 +86,7 @@ function FloatingBackgroundElements() {
         </svg>
       </div>
 
-      <div className="absolute bottom-[25%] right-[15%] animate-bounce-horizontal-1 opacity-14">
+      <div className="absolute bottom-[8%] right-[2%] animate-bounce-horizontal-1 opacity-14">
         <svg width="28" height="48" viewBox="0 0 28 48" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="4" y="4" width="20" height="30" rx="10" stroke="#6D28D9" strokeWidth="1.5" />
           <rect x="9" y="34" width="10" height="12" rx="2" stroke="#6D28D9" strokeWidth="1" />
@@ -111,14 +94,14 @@ function FloatingBackgroundElements() {
         </svg>
       </div>
 
-      <div className="absolute top-[50%] left-[8%] animate-bounce-horizontal-2 opacity-13">
+      <div className="absolute top-[28%] right-[2%] animate-bounce-horizontal-2 opacity-13">
         <svg width="22" height="42" viewBox="0 0 22 42" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="4" y="4" width="14" height="24" rx="7" stroke="#8B5CF6" strokeWidth="1.5" />
           <rect x="8" y="28" width="6" height="10" rx="2" stroke="#8B5CF6" strokeWidth="1" />
         </svg>
       </div>
 
-      <div className="absolute bottom-[40%] right-[8%] animate-bounce-diagonal-1 opacity-17">
+      <div className="absolute bottom-[15%] right-[30%] animate-bounce-diagonal-1 opacity-17">
         <svg width="38" height="58" viewBox="0 0 38 58" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="6" y="6" width="26" height="38" rx="13" stroke="#7C3AED" strokeWidth="1.5" />
           <rect x="13" y="44" width="12" height="12" rx="2" stroke="#7C3AED" strokeWidth="1" />
@@ -127,139 +110,261 @@ function FloatingBackgroundElements() {
         </svg>
       </div>
 
-      {/* Floating Speech Bubbles - Cloud-like, distributed across page */}
-      <div className="absolute top-32 right-[12%] animate-bounce-horizontal-2 opacity-15">
-        <svg width="70" height="50" viewBox="0 0 70 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-          {/* Cloud shape */}
-          <path
-            d="M 20 15 Q 15 15 12 18 Q 8 18 8 22 Q 5 22 5 26 Q 5 30 9 30 Q 12 33 16 33 Q 20 36 25 36 Q 30 36 33 33 Q 37 33 40 30 Q 44 30 44 26 Q 44 22 40 22 Q 40 18 36 18 Q 33 15 28 15 Q 25 12 20 15 Z"
-            stroke="#8B5CF6"
-            strokeWidth="1.5"
-            fill="none"
-          />
+      {/* Floating Speech Bubbles - Rounded rectangle style, spread out avoiding center */}
+      <div className="absolute top-[6%] right-[2%] animate-bounce-horizontal-2 opacity-15">
+        <svg width="60" height="40" viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {/* Rounded rectangle bubble */}
+          <rect x="5" y="5" width="50" height="30" rx="8" stroke="#8B5CF6" strokeWidth="1.5" fill="none" />
           {/* Speech bubble tail */}
-          <path d="M 25 36 Q 22 40 20 38 Q 18 36 20 34" stroke="#8B5CF6" strokeWidth="1.5" fill="none" />
+          <path d="M 20 35 L 15 42 L 25 35 Z" fill="#8B5CF6" opacity="0.6" />
           {/* Text lines */}
-          <line x1="18" y1="22" x2="32" y2="22" stroke="#8B5CF6" strokeWidth="1" opacity="0.4" />
-          <line x1="18" y1="27" x2="30" y2="27" stroke="#8B5CF6" strokeWidth="1" opacity="0.4" />
+          <line x1="15" y1="15" x2="45" y2="15" stroke="#8B5CF6" strokeWidth="1" opacity="0.4" />
+          <line x1="15" y1="22" x2="40" y2="22" stroke="#8B5CF6" strokeWidth="1" opacity="0.4" />
         </svg>
       </div>
 
-      <div className="absolute bottom-40 right-[18%] animate-bounce-diagonal-1 opacity-18">
-        <svg width="60" height="45" viewBox="0 0 60 45" fill="none" xmlns="http://www.w3.org/2000/svg">
-          {/* Cloud shape */}
-          <path
-            d="M 45 12 Q 50 12 52 15 Q 55 15 55 18 Q 58 18 58 22 Q 58 26 55 26 Q 52 29 48 29 Q 44 32 40 32 Q 35 32 32 29 Q 28 29 25 26 Q 21 26 21 22 Q 21 18 24 18 Q 24 15 27 15 Q 30 12 35 12 Q 40 9 45 12 Z"
-            stroke="#7C3AED"
-            strokeWidth="1.5"
-            fill="none"
-          />
+      <div className="absolute bottom-[6%] right-[2%] animate-bounce-diagonal-1 opacity-18">
+        <svg width="55" height="38" viewBox="0 0 55 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {/* Rounded rectangle bubble */}
+          <rect x="5" y="5" width="45" height="28" rx="7" stroke="#7C3AED" strokeWidth="1.5" fill="none" />
           {/* Speech bubble tail */}
-          <path d="M 40 32 Q 43 36 45 34 Q 47 32 45 30" stroke="#7C3AED" strokeWidth="1.5" fill="none" />
+          <path d="M 40 33 L 45 40 L 35 33 Z" fill="#7C3AED" opacity="0.6" />
           {/* Text lines */}
-          <line x1="28" y1="19" x2="42" y2="19" stroke="#7C3AED" strokeWidth="1" opacity="0.4" />
-          <line x1="28" y1="24" x2="40" y2="24" stroke="#7C3AED" strokeWidth="1" opacity="0.4" />
+          <line x1="12" y1="15" x2="38" y2="15" stroke="#7C3AED" strokeWidth="1" opacity="0.4" />
+          <line x1="12" y1="22" x2="35" y2="22" stroke="#7C3AED" strokeWidth="1" opacity="0.4" />
         </svg>
       </div>
 
-      <div className="absolute top-80 left-[22%] animate-bounce-horizontal-3 opacity-12">
-        <svg width="55" height="40" viewBox="0 0 55 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          {/* Cloud shape */}
-          <path
-            d="M 15 10 Q 10 10 8 13 Q 5 13 5 17 Q 2 17 2 21 Q 2 25 5 25 Q 8 28 12 28 Q 16 31 21 31 Q 26 31 29 28 Q 33 28 36 25 Q 40 25 40 21 Q 40 17 37 17 Q 37 13 34 13 Q 31 10 26 10 Q 21 7 15 10 Z"
-            stroke="#6D28D9"
-            strokeWidth="1.5"
-            fill="none"
-          />
+      <div className="absolute top-[18%] left-[2%] animate-bounce-horizontal-3 opacity-12">
+        <svg width="50" height="35" viewBox="0 0 50 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {/* Rounded rectangle bubble */}
+          <rect x="5" y="5" width="40" height="25" rx="6" stroke="#6D28D9" strokeWidth="1.5" fill="none" />
           {/* Speech bubble tail */}
-          <path d="M 21 31 Q 18 35 16 33 Q 14 31 16 29" stroke="#6D28D9" strokeWidth="1.5" fill="none" />
+          <path d="M 15 30 L 10 37 L 20 30 Z" fill="#6D28D9" opacity="0.6" />
           {/* Text lines */}
-          <line x1="12" y1="17" x2="28" y2="17" stroke="#6D28D9" strokeWidth="1" opacity="0.4" />
+          <line x1="12" y1="15" x2="33" y2="15" stroke="#6D28D9" strokeWidth="1" opacity="0.4" />
         </svg>
       </div>
 
-      <div className="absolute bottom-60 left-[12%] animate-bounce-horizontal-1 opacity-15">
-        <svg width="65" height="48" viewBox="0 0 65 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          {/* Cloud shape */}
-          <path
-            d="M 20 14 Q 15 14 12 17 Q 8 17 8 21 Q 5 21 5 25 Q 5 29 9 29 Q 12 32 16 32 Q 20 35 25 35 Q 30 35 33 32 Q 37 32 40 29 Q 44 29 44 25 Q 44 21 40 21 Q 40 17 36 17 Q 33 14 28 14 Q 25 11 20 14 Z"
-            stroke="#8B5CF6"
-            strokeWidth="1.5"
-            fill="none"
-          />
-          {/* Speech bubble tail */}
-          <path d="M 25 35 Q 22 39 20 37 Q 18 35 20 33" stroke="#8B5CF6" strokeWidth="1.5" fill="none" />
-          {/* Text lines */}
-          <line x1="18" y1="21" x2="32" y2="21" stroke="#8B5CF6" strokeWidth="1" opacity="0.4" />
-          <line x1="18" y1="26" x2="30" y2="26" stroke="#8B5CF6" strokeWidth="1" opacity="0.4" />
-          <line x1="18" y1="31" x2="28" y2="31" stroke="#8B5CF6" strokeWidth="1" opacity="0.4" />
-        </svg>
-      </div>
-
-      <div className="absolute top-[35%] right-[25%] animate-bounce-diagonal-2 opacity-14">
+      <div className="absolute bottom-[12%] left-[2%] animate-bounce-horizontal-1 opacity-15">
         <svg width="58" height="42" viewBox="0 0 58 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-          {/* Cloud shape */}
-          <path
-            d="M 18 12 Q 13 12 10 15 Q 6 15 6 19 Q 3 19 3 23 Q 3 27 7 27 Q 10 30 14 30 Q 18 33 23 33 Q 28 33 31 30 Q 35 30 38 27 Q 42 27 42 23 Q 42 19 38 19 Q 38 15 34 15 Q 31 12 26 12 Q 23 9 18 12 Z"
-            stroke="#7C3AED"
-            strokeWidth="1.5"
-            fill="none"
-          />
+          {/* Rounded rectangle bubble */}
+          <rect x="5" y="5" width="48" height="32" rx="8" stroke="#8B5CF6" strokeWidth="1.5" fill="none" />
           {/* Speech bubble tail */}
-          <path d="M 23 33 Q 20 37 18 35 Q 16 33 18 31" stroke="#7C3AED" strokeWidth="1.5" fill="none" />
+          <path d="M 22 37 L 17 44 L 27 37 Z" fill="#8B5CF6" opacity="0.6" />
           {/* Text lines */}
-          <line x1="16" y1="19" x2="30" y2="19" stroke="#7C3AED" strokeWidth="1" opacity="0.4" />
-          <line x1="16" y1="24" x2="28" y2="24" stroke="#7C3AED" strokeWidth="1" opacity="0.4" />
+          <line x1="15" y1="16" x2="43" y2="16" stroke="#8B5CF6" strokeWidth="1" opacity="0.4" />
+          <line x1="15" y1="23" x2="40" y2="23" stroke="#8B5CF6" strokeWidth="1" opacity="0.4" />
+          <line x1="15" y1="30" x2="38" y2="30" stroke="#8B5CF6" strokeWidth="1" opacity="0.4" />
         </svg>
       </div>
 
-      <div className="absolute bottom-[30%] left-[30%] animate-bounce-horizontal-2 opacity-16">
-        <svg width="52" height="38" viewBox="0 0 52 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-          {/* Cloud shape */}
-          <path
-            d="M 16 10 Q 11 10 8 13 Q 4 13 4 17 Q 1 17 1 21 Q 1 25 5 25 Q 8 28 12 28 Q 16 31 21 31 Q 26 31 29 28 Q 33 28 36 25 Q 40 25 40 21 Q 40 17 37 17 Q 37 13 34 13 Q 31 10 26 10 Q 23 7 16 10 Z"
-            stroke="#6D28D9"
-            strokeWidth="1.5"
-            fill="none"
-          />
+      <div className="absolute top-[25%] right-[30%] animate-bounce-diagonal-2 opacity-14">
+        <svg width="52" height="36" viewBox="0 0 52 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {/* Rounded rectangle bubble */}
+          <rect x="5" y="5" width="42" height="26" rx="7" stroke="#7C3AED" strokeWidth="1.5" fill="none" />
           {/* Speech bubble tail */}
-          <path d="M 21 31 Q 18 35 16 33 Q 14 31 16 29" stroke="#6D28D9" strokeWidth="1.5" fill="none" />
+          <path d="M 40 31 L 45 38 L 35 31 Z" fill="#7C3AED" opacity="0.6" />
           {/* Text lines */}
-          <line x1="12" y1="17" x2="28" y2="17" stroke="#6D28D9" strokeWidth="1" opacity="0.4" />
-          <line x1="12" y1="22" x2="26" y2="22" stroke="#6D28D9" strokeWidth="1" opacity="0.4" />
+          <line x1="12" y1="15" x2="35" y2="15" stroke="#7C3AED" strokeWidth="1" opacity="0.4" />
+          <line x1="12" y1="22" x2="33" y2="22" stroke="#7C3AED" strokeWidth="1" opacity="0.4" />
         </svg>
       </div>
 
-      <div className="absolute top-[55%] right-[5%] animate-bounce-horizontal-1 opacity-13">
-        <svg width="48" height="35" viewBox="0 0 48 35" fill="none" xmlns="http://www.w3.org/2000/svg">
-          {/* Cloud shape */}
-          <path
-            d="M 14 8 Q 9 8 6 11 Q 2 11 2 15 Q -1 15 -1 19 Q -1 23 3 23 Q 6 26 10 26 Q 14 29 19 29 Q 24 29 27 26 Q 31 26 34 23 Q 38 23 38 19 Q 38 15 35 15 Q 35 11 32 11 Q 29 8 24 8 Q 21 5 14 8 Z"
-            stroke="#8B5CF6"
-            strokeWidth="1.5"
-            fill="none"
-          />
+      <div className="absolute bottom-[18%] left-[30%] animate-bounce-horizontal-2 opacity-16">
+        <svg width="48" height="34" viewBox="0 0 48 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {/* Rounded rectangle bubble */}
+          <rect x="5" y="5" width="38" height="24" rx="6" stroke="#6D28D9" strokeWidth="1.5" fill="none" />
           {/* Speech bubble tail */}
-          <path d="M 19 29 Q 16 33 14 31 Q 12 29 14 27" stroke="#8B5CF6" strokeWidth="1.5" fill="none" />
+          <path d="M 15 29 L 10 36 L 20 29 Z" fill="#6D28D9" opacity="0.6" />
           {/* Text lines */}
-          <line x1="10" y1="15" x2="24" y2="15" stroke="#8B5CF6" strokeWidth="1" opacity="0.4" />
+          <line x1="12" y1="14" x2="31" y2="14" stroke="#6D28D9" strokeWidth="1" opacity="0.4" />
+          <line x1="12" y1="20" x2="29" y2="20" stroke="#6D28D9" strokeWidth="1" opacity="0.4" />
         </svg>
       </div>
 
-      <div className="absolute bottom-[50%] left-[5%] animate-bounce-diagonal-1 opacity-17">
-        <svg width="62" height="44" viewBox="0 0 62 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-          {/* Cloud shape */}
-          <path
-            d="M 19 11 Q 14 11 11 14 Q 7 14 7 18 Q 4 18 4 22 Q 4 26 8 26 Q 11 29 15 29 Q 19 32 24 32 Q 29 32 32 29 Q 36 29 39 26 Q 43 26 43 22 Q 43 18 40 18 Q 40 14 37 14 Q 34 11 29 11 Q 26 8 19 11 Z"
-            stroke="#7C3AED"
-            strokeWidth="1.5"
-            fill="none"
-          />
+      <div className="absolute top-[35%] right-[2%] animate-bounce-horizontal-1 opacity-13">
+        <svg width="45" height="32" viewBox="0 0 45 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {/* Rounded rectangle bubble */}
+          <rect x="5" y="5" width="35" height="22" rx="6" stroke="#8B5CF6" strokeWidth="1.5" fill="none" />
           {/* Speech bubble tail */}
-          <path d="M 24 32 Q 21 36 19 34 Q 17 32 19 30" stroke="#7C3AED" strokeWidth="1.5" fill="none" />
+          <path d="M 40 27 L 45 34 L 35 27 Z" fill="#8B5CF6" opacity="0.6" />
           {/* Text lines */}
-          <line x1="17" y1="18" x2="31" y2="18" stroke="#7C3AED" strokeWidth="1" opacity="0.4" />
-          <line x1="17" y1="23" x2="29" y2="23" stroke="#7C3AED" strokeWidth="1" opacity="0.4" />
+          <line x1="12" y1="14" x2="28" y2="14" stroke="#8B5CF6" strokeWidth="1" opacity="0.4" />
+        </svg>
+      </div>
+
+      <div className="absolute bottom-[25%] left-[2%] animate-bounce-diagonal-1 opacity-17">
+        <svg width="55" height="38" viewBox="0 0 55 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {/* Rounded rectangle bubble */}
+          <rect x="5" y="5" width="45" height="28" rx="7" stroke="#7C3AED" strokeWidth="1.5" fill="none" />
+          {/* Speech bubble tail */}
+          <path d="M 15 33 L 10 40 L 20 33 Z" fill="#7C3AED" opacity="0.6" />
+          {/* Text lines */}
+          <line x1="12" y1="15" x2="38" y2="15" stroke="#7C3AED" strokeWidth="1" opacity="0.4" />
+          <line x1="12" y1="22" x2="35" y2="22" stroke="#7C3AED" strokeWidth="1" opacity="0.4" />
+        </svg>
+      </div>
+
+      {/* Additional floating elements to fill empty space - positioned to avoid center content */}
+      {/* Top-left corner area */}
+      <div className="absolute top-[3%] left-[8%] animate-bounce-horizontal-1 opacity-10">
+        <svg width="20" height="35" viewBox="0 0 20 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="4" width="12" height="20" rx="6" stroke="#8B5CF6" strokeWidth="1" />
+          <rect x="7" y="24" width="6" height="8" rx="1" stroke="#8B5CF6" strokeWidth="0.8" />
+        </svg>
+      </div>
+
+      <div className="absolute top-[10%] left-[15%] animate-bounce-diagonal-2 opacity-11">
+        <svg width="42" height="28" viewBox="0 0 42 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="4" width="34" height="20" rx="5" stroke="#7C3AED" strokeWidth="1.2" fill="none" />
+          <path d="M 12 24 L 8 28 L 16 24 Z" fill="#7C3AED" opacity="0.5" />
+          <line x1="10" y1="12" x2="28" y2="12" stroke="#7C3AED" strokeWidth="0.8" opacity="0.3" />
+        </svg>
+      </div>
+
+      {/* Top-right corner area */}
+      <div className="absolute top-[4%] right-[8%] animate-bounce-horizontal-3 opacity-9">
+        <svg width="18" height="32" viewBox="0 0 18 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="3" width="12" height="18" rx="6" stroke="#6D28D9" strokeWidth="1" />
+          <rect x="6" y="21" width="6" height="8" rx="1" stroke="#6D28D9" strokeWidth="0.8" />
+        </svg>
+      </div>
+
+      <div className="absolute top-[14%] right-[15%] animate-bounce-diagonal-1 opacity-12">
+        <svg width="38" height="26" viewBox="0 0 38 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="4" width="30" height="18" rx="4" stroke="#8B5CF6" strokeWidth="1.2" fill="none" />
+          <path d="M 28 22 L 32 26 L 24 22 Z" fill="#8B5CF6" opacity="0.5" />
+          <line x1="10" y1="11" x2="26" y2="11" stroke="#8B5CF6" strokeWidth="0.8" opacity="0.3" />
+        </svg>
+      </div>
+
+      {/* Left middle area - avoiding center */}
+      <div className="absolute top-[40%] left-[5%] animate-bounce-horizontal-2 opacity-13">
+        <svg width="26" height="44" viewBox="0 0 26 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="4" width="18" height="28" rx="9" stroke="#7C3AED" strokeWidth="1.2" />
+          <rect x="8" y="32" width="10" height="10" rx="1.5" stroke="#7C3AED" strokeWidth="0.8" />
+          <line x1="6" y1="14" x2="20" y2="14" stroke="#7C3AED" strokeWidth="0.8" opacity="0.5" />
+        </svg>
+      </div>
+
+      <div className="absolute top-[50%] left-[12%] animate-bounce-diagonal-1 opacity-14">
+        <svg width="48" height="32" viewBox="0 0 48 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="4" width="40" height="24" rx="5" stroke="#6D28D9" strokeWidth="1.2" fill="none" />
+          <path d="M 14 28 L 10 32 L 18 28 Z" fill="#6D28D9" opacity="0.5" />
+          <line x1="10" y1="13" x2="34" y2="13" stroke="#6D28D9" strokeWidth="0.8" opacity="0.3" />
+          <line x1="10" y1="19" x2="32" y2="19" stroke="#6D28D9" strokeWidth="0.8" opacity="0.3" />
+        </svg>
+      </div>
+
+      <div className="absolute top-[65%] left-[6%] animate-bounce-horizontal-3 opacity-11">
+        <svg width="24" height="40" viewBox="0 0 24 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="3" width="18" height="26" rx="9" stroke="#8B5CF6" strokeWidth="1.2" />
+          <rect x="7" y="29" width="10" height="9" rx="1.5" stroke="#8B5CF6" strokeWidth="0.8" />
+        </svg>
+      </div>
+
+      {/* Right middle area - avoiding center */}
+      <div className="absolute top-[45%] right-[5%] animate-bounce-horizontal-1 opacity-12">
+        <svg width="30" height="46" viewBox="0 0 30 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="4" width="22" height="30" rx="11" stroke="#6D28D9" strokeWidth="1.2" />
+          <rect x="9" y="34" width="12" height="10" rx="1.5" stroke="#6D28D9" strokeWidth="0.8" />
+          <line x1="7" y1="15" x2="23" y2="15" stroke="#6D28D9" strokeWidth="0.8" opacity="0.5" />
+        </svg>
+      </div>
+
+      <div className="absolute top-[55%] right-[12%] animate-bounce-diagonal-2 opacity-15">
+        <svg width="44" height="30" viewBox="0 0 44 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="4" width="36" height="22" rx="5" stroke="#7C3AED" strokeWidth="1.2" fill="none" />
+          <path d="M 32 26 L 36 30 L 28 26 Z" fill="#7C3AED" opacity="0.5" />
+          <line x1="10" y1="13" x2="30" y2="13" stroke="#7C3AED" strokeWidth="0.8" opacity="0.3" />
+        </svg>
+      </div>
+
+      <div className="absolute top-[70%] right-[6%] animate-bounce-horizontal-2 opacity-10">
+        <svg width="22" height="38" viewBox="0 0 22 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="3" width="16" height="24" rx="8" stroke="#8B5CF6" strokeWidth="1.2" />
+          <rect x="7" y="27" width="8" height="9" rx="1.5" stroke="#8B5CF6" strokeWidth="0.8" />
+        </svg>
+      </div>
+
+      {/* Bottom-left corner area */}
+      <div className="absolute bottom-[3%] left-[8%] animate-bounce-diagonal-1 opacity-11">
+        <svg width="40" height="26" viewBox="0 0 40 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="4" width="32" height="18" rx="4" stroke="#7C3AED" strokeWidth="1.2" fill="none" />
+          <path d="M 12 22 L 8 26 L 16 22 Z" fill="#7C3AED" opacity="0.5" />
+          <line x1="10" y1="11" x2="28" y2="11" stroke="#7C3AED" strokeWidth="0.8" opacity="0.3" />
+        </svg>
+      </div>
+
+      <div className="absolute bottom-[10%] left-[15%] animate-bounce-horizontal-3 opacity-9">
+        <svg width="20" height="33" viewBox="0 0 20 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="3" width="14" height="19" rx="7" stroke="#6D28D9" strokeWidth="1" />
+          <rect x="6" y="22" width="8" height="9" rx="1" stroke="#6D28D9" strokeWidth="0.8" />
+        </svg>
+      </div>
+
+      {/* Bottom-right corner area */}
+      <div className="absolute bottom-[4%] right-[8%] animate-bounce-horizontal-1 opacity-10">
+        <svg width="36" height="24" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="4" width="28" height="16" rx="4" stroke="#8B5CF6" strokeWidth="1.2" fill="none" />
+          <path d="M 26 20 L 30 24 L 22 20 Z" fill="#8B5CF6" opacity="0.5" />
+          <line x1="10" y1="11" x2="26" y2="11" stroke="#8B5CF6" strokeWidth="0.8" opacity="0.3" />
+        </svg>
+      </div>
+
+      <div className="absolute bottom-[12%] right-[15%] animate-bounce-diagonal-2 opacity-12">
+        <svg width="24" height="40" viewBox="0 0 24 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="3" width="18" height="26" rx="9" stroke="#7C3AED" strokeWidth="1.2" />
+          <rect x="7" y="29" width="10" height="9" rx="1.5" stroke="#7C3AED" strokeWidth="0.8" />
+        </svg>
+      </div>
+
+      {/* Top middle area - careful not to touch headline */}
+      <div className="absolute top-[2%] left-[25%] animate-bounce-horizontal-2 opacity-8">
+        <svg width="16" height="28" viewBox="0 0 16 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="3" width="10" height="16" rx="5" stroke="#6D28D9" strokeWidth="1" />
+          <rect x="5" y="19" width="6" height="7" rx="1" stroke="#6D28D9" strokeWidth="0.8" />
+        </svg>
+      </div>
+
+      <div className="absolute top-[2%] right-[25%] animate-bounce-horizontal-3 opacity-9">
+        <svg width="32" height="22" viewBox="0 0 32 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="3" width="26" height="16" rx="4" stroke="#8B5CF6" strokeWidth="1.2" fill="none" />
+          <path d="M 22 19 L 26 23 L 18 19 Z" fill="#8B5CF6" opacity="0.5" />
+        </svg>
+      </div>
+
+      {/* Additional scattered elements for density */}
+      <div className="absolute top-[32%] left-[20%] animate-bounce-diagonal-1 opacity-10">
+        <svg width="28" height="42" viewBox="0 0 28 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="3" width="22" height="28" rx="11" stroke="#7C3AED" strokeWidth="1.2" />
+          <rect x="8" y="31" width="12" height="9" rx="1.5" stroke="#7C3AED" strokeWidth="0.8" />
+        </svg>
+      </div>
+
+      <div className="absolute top-[38%] right-[20%] animate-bounce-horizontal-2 opacity-11">
+        <svg width="34" height="24" viewBox="0 0 34 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="3" width="28" height="18" rx="4" stroke="#6D28D9" strokeWidth="1.2" fill="none" />
+          <path d="M 24 21 L 28 25 L 20 21 Z" fill="#6D28D9" opacity="0.5" />
+          <line x1="8" y1="11" x2="24" y2="11" stroke="#6D28D9" strokeWidth="0.8" opacity="0.3" />
+        </svg>
+      </div>
+
+      <div className="absolute bottom-[30%] left-[20%] animate-bounce-horizontal-1 opacity-12">
+        <svg width="30" height="44" viewBox="0 0 30 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="4" width="22" height="30" rx="11" stroke="#8B5CF6" strokeWidth="1.2" />
+          <rect x="9" y="34" width="12" height="8" rx="1.5" stroke="#8B5CF6" strokeWidth="0.8" />
+          <line x1="7" y1="16" x2="23" y2="16" stroke="#8B5CF6" strokeWidth="0.8" opacity="0.5" />
+        </svg>
+      </div>
+
+      <div className="absolute bottom-[35%] right-[20%] animate-bounce-diagonal-2 opacity-13">
+        <svg width="40" height="28" viewBox="0 0 40 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="4" width="32" height="20" rx="5" stroke="#7C3AED" strokeWidth="1.2" fill="none" />
+          <path d="M 28 24 L 32 28 L 24 24 Z" fill="#7C3AED" opacity="0.5" />
+          <line x1="10" y1="13" x2="28" y2="13" stroke="#7C3AED" strokeWidth="0.8" opacity="0.3" />
+          <line x1="10" y1="18" x2="26" y2="18" stroke="#7C3AED" strokeWidth="0.8" opacity="0.3" />
         </svg>
       </div>
     </div>
@@ -545,20 +650,47 @@ function ModesSection() {
   );
 }
 
-// Scoring Bar Component
-function ScoringBar({ label, value, color }: { label: string; value: number; color: string }) {
+// Score Card Component
+function ScoreCard({ label, value, color }: { label: string; value: number; color: string }) {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    // Trigger animation when component mounts
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <div className="mb-6">
-      <div className="flex justify-between items-center mb-2">
-        <span className="text-sm font-medium">{label}</span>
-        <span className="text-sm text-zinc-200">{value}%</span>
-      </div>
-      <div className="h-2 bg-zinc-900 border border-zinc-800 relative overflow-hidden">
-        <div
-          className="h-full transition-all duration-500"
+    <div className="group border border-zinc-800 bg-zinc-950 p-6 hover:border-violet-600/30 transition-all duration-300">
+      {/* Dimension name */}
+      <h3 className="text-sm font-medium text-zinc-300 mb-4 uppercase tracking-wide">
+        {label}
+      </h3>
+      
+      {/* Large percentage number */}
+      <div className="mb-4">
+        <span 
+          className="text-5xl md:text-6xl font-bold transition-all duration-500"
           style={{
-            width: `${value}%`,
+            color: color,
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? 'translateY(0)' : 'translateY(10px)',
+          }}
+        >
+          {value}%
+        </span>
+      </div>
+      
+      {/* Progress indicator */}
+      <div className="h-1.5 bg-zinc-900 border border-zinc-800 relative overflow-hidden">
+        <div
+          className="h-full transition-all duration-700 ease-out"
+          style={{
+            width: isVisible ? `${value}%` : '0%',
             backgroundColor: color,
+            boxShadow: `0 0 10px ${color}60`,
           }}
         />
       </div>
@@ -577,7 +709,7 @@ function ScoringSystem() {
 
   return (
     <section id="scoring" className="py-24 bg-black/80 backdrop-blur-sm">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">Scoring System</h2>
         <p className="text-center text-zinc-100 mb-3 max-w-2xl mx-auto">
           Every debate is evaluated across four dimensions. Fair, transparent, and skill-based.
@@ -589,32 +721,20 @@ function ScoringSystem() {
           <p className="text-sm text-zinc-300">Fixed rubric. Same criteria for everyone.</p>
         </div>
         <div className="border border-zinc-800 bg-zinc-950 p-8 md:p-12">
-          {dimensions.map((dim, idx) => (
-            <ScoringBar key={idx} label={dim.label} value={dim.value} color={dim.color} />
-          ))}
+          {/* Score Cards Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8">
+            {dimensions.map((dim, idx) => (
+              <ScoreCard key={idx} label={dim.label} value={dim.value} color={dim.color} />
+            ))}
+          </div>
+
+          {/* Civility message */}
           <div className="mt-6 pt-6 border-t border-zinc-800">
-            <div className="flex items-start gap-2 mb-3">
+            <div className="flex items-start gap-2">
               <svg className="w-4 h-4 text-violet-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <p className="text-sm text-zinc-300">Civility is rewarded. Abuse is penalized.</p>
-            </div>
-            <div className="bg-black/50 border border-zinc-800 p-6 rounded-sm">
-              <h3 className="text-lg font-semibold mb-3">Trust & Fairness</h3>
-              <ul className="space-y-2 text-sm text-zinc-200">
-                <li className="flex items-start">
-                  <span className="text-violet-500 mr-2">•</span>
-                  <span>Fixed rubric, applied consistently</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-violet-500 mr-2">•</span>
-                  <span>Score breakdown shown after each debate</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-violet-500 mr-2">•</span>
-                  <span>Civility is rewarded; harassment is penalized</span>
-                </li>
-              </ul>
+              <p className="text-sm text-zinc-300">Civility is rewarded. Abuse is not tolerated.</p>
             </div>
           </div>
         </div>
