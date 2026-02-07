@@ -2,25 +2,38 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'FORA',
+  title: 'Fora',
   description: 'Competitive player vs player debates with skill-based scoring. Challenge opponents, prove your arguments, and climb the leaderboards.',
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://fora.app'),
   icons: {
-    icon: '/favicon.ico',
-    apple: '/favicon.ico',
+    icon: '/Logo.png',
+    apple: '/Logo.png',
   },
   manifest: '/manifest.json',
   openGraph: {
-    title: 'FORA',
+    title: 'Fora',
     description: 'Competitive player vs player debates with skill-based scoring. Challenge opponents, prove your arguments, and climb the leaderboards.',
     type: 'website',
-    images: [],
+    siteName: 'Fora',
+    images: [
+      {
+        url: '/Logo.png',
+        width: 1536,
+        height: 1024,
+        alt: 'Fora',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'FORA',
+    title: 'Fora',
     description: 'Competitive player vs player debates with skill-based scoring.',
-    images: [],
+    images: [
+      {
+        url: '/Logo.png',
+        alt: 'Fora',
+      },
+    ],
   },
 }
 
