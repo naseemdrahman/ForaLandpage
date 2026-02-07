@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 // Navbar Component
 function Navbar({ onContactClick }: { onContactClick: () => void }) {
@@ -9,9 +10,16 @@ function Navbar({ onContactClick }: { onContactClick: () => void }) {
     <nav className="sticky top-0 z-50 bg-black/80 backdrop-blur-sm border-b border-zinc-800">
       <div className="w-full flex items-center justify-between h-20 lg:h-24">
         <Link href="/" className="flex items-center pl-4 sm:pl-6 lg:pl-8">
-          <span className="text-white text-3xl lg:text-5xl font-bold tracking-tighter uppercase">
-            FORA
-          </span>
+          <div className="relative h-12 w-auto lg:h-16">
+            <Image
+              src="/Logo.png"
+              alt="Fora"
+              width={120}
+              height={120}
+              className="h-12 w-auto lg:h-16 object-contain"
+              priority
+            />
+          </div>
         </Link>
         <div className="pr-4 sm:pr-6 lg:pr-8">
           <button
@@ -1231,8 +1239,16 @@ function Footer() {
     <footer className="bg-black/80 backdrop-blur-sm border-t border-zinc-800 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-          <div>
-            <h3 className="text-xl font-bold tracking-tighter uppercase mb-2">FORA</h3>
+          <div className="flex items-center gap-3">
+            <div className="relative h-8 w-auto">
+              <Image
+                src="/Logo.png"
+                alt="Fora"
+                width={80}
+                height={80}
+                className="h-8 w-auto object-contain"
+              />
+            </div>
             <p className="text-sm text-zinc-300">Competitive debate. Skill-based ranking.</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-6">

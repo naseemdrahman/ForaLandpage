@@ -7,12 +7,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://fora.app'),
   icons: {
     icon: [
-      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
-      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
-      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/Logo.png', sizes: '192x192', type: 'image/png' },
+      { url: '/Logo.png', sizes: '512x512', type: 'image/png' },
+      { url: '/Logo.png', sizes: 'any' },
     ],
     apple: [
-      { url: '/apple-icon.png', sizes: '180x180', type: 'image/png' },
+      { url: '/Logo.png', sizes: '180x180', type: 'image/png' },
     ],
   },
   manifest: '/manifest.json',
@@ -22,10 +22,10 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/logo.png',
+        url: '/Logo.png',
         width: 1200,
         height: 1200,
-        alt: 'FORA Logo',
+        alt: 'Fora Logo',
       },
     ],
   },
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'FORA',
     description: 'Competitive player vs player debates with skill-based scoring.',
-    images: ['/logo.png'],
+    images: ['/Logo.png'],
   },
 }
 

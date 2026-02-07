@@ -1,6 +1,6 @@
 {
-  "name": "FORA",
-  "short_name": "FORA",
+  "name": "Fora",
+  "short_name": "Fora",
   "description": "Debate like a sport. Competitive player vs player debates with skill-based scoring.",
   "start_url": "/",
   "display": "standalone",
@@ -8,13 +8,13 @@
   "theme_color": "#8B5CF6",
   "icons": [
     {
-      "src": "/icon-192.png",
+      "src": "/Logo.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/icon-512.png",
+      "src": "/Logo.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
