@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { writeFile, readFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import path from 'path';
+import { sendWaitlistEmail } from '@/lib/email';
 
 interface WaitlistEntry {
   name: string;
@@ -67,7 +68,6 @@ async function saveViaAppsScript(entry: WaitlistEntry): Promise<{ success: boole
       redirect: 'follow',
     });
 
-    // Google Apps Script may redirect — follow it and read the final response
     const text = await response.text();
     console.log('[Waitlist] Apps Script response status:', response.status);
     console.log('[Waitlist] Apps Script response body:', text);
@@ -81,7 +81,6 @@ async function saveViaAppsScript(entry: WaitlistEntry): Promise<{ success: boole
     }
 
     if (data.ok && data.deduped) {
-      // Script found the email already exists but returned ok:true with deduped flag
       return { success: false, reason: 'EMAIL_EXISTS', error: 'Email already registered' };
     } else if (data.ok) {
       console.log('✅ Waitlist entry saved via Apps Script');
@@ -102,7 +101,6 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { name, email } = body;
 
-    // Validate required fields
     if (!name || typeof name !== 'string' || name.trim().length === 0) {
       return NextResponse.json(
         { error: 'Name is required' },
@@ -117,7 +115,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return NextResponse.json(
@@ -148,6 +145,11 @@ export async function POST(request: NextRequest) {
     const appsResult = await saveViaAppsScript(entry);
     
     if (appsResult.success) {
+      // Send confirmation email from Next.js (non-blocking)
+      sendWaitlistEmail(entry.name, entry.email).catch(err => {
+        console.error('[Waitlist] Email send failed:', err);
+      });
+
       return NextResponse.json(
         { message: 'Successfully joined waitlist!', entry, savedToSheets: true },
         { status: 200 }
@@ -171,6 +173,11 @@ export async function POST(request: NextRequest) {
         { status: 409 }
       );
     }
+
+    // Still try to send email even with local fallback
+    sendWaitlistEmail(entry.name, entry.email).catch(err => {
+      console.error('[Waitlist] Email send failed:', err);
+    });
 
     return NextResponse.json(
       { message: 'Successfully joined waitlist!', entry, savedToSheets: false },

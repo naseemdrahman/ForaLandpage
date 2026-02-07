@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { writeFile, readFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import path from 'path';
+import { sendContactEmail } from '@/lib/email';
 
 interface ContactData {
   name: string;
@@ -92,7 +93,6 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { name, email, message } = body;
 
-    // Validate required fields
     if (!name || typeof name !== 'string' || name.trim().length === 0) {
       return NextResponse.json(
         { error: 'Name is required' },
@@ -107,7 +107,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return NextResponse.json(
@@ -139,6 +138,11 @@ export async function POST(request: NextRequest) {
     const appsResult = await saveViaAppsScript(contactData);
     
     if (appsResult.success) {
+      // Send confirmation email from Next.js (non-blocking)
+      sendContactEmail(contactData.name, contactData.email).catch(err => {
+        console.error('[Contact] Email send failed:', err);
+      });
+
       return NextResponse.json(
         { message: 'Contact information received!', contact: contactData, savedToSheets: true },
         { status: 200 }
@@ -155,6 +159,11 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
+
+    // Still try to send email even with local fallback
+    sendContactEmail(contactData.name, contactData.email).catch(err => {
+      console.error('[Contact] Email send failed:', err);
+    });
 
     return NextResponse.json(
       { message: 'Contact information received!', contact: contactData, savedToSheets: false },
