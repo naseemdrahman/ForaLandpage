@@ -17,7 +17,7 @@ function Navbar({ onContactClick }: { onContactClick: () => void }) {
         <div className="pr-4 sm:pr-6 lg:pr-8">
           <button
             onClick={onContactClick}
-            className="px-6 py-3 lg:px-8 lg:py-3 border border-zinc-800 hover:border-zinc-700 text-white text-base lg:text-lg font-medium transition-colors bg-zinc-950 hover:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-black"
+            className="px-6 py-3 lg:px-8 lg:py-3 border border-white text-black text-base lg:text-lg font-medium transition-colors bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-black"
           >
             Contact us
           </button>
@@ -469,7 +469,7 @@ function HeroSection({ onWaitlistClick }: { onWaitlistClick: () => void }) {
               </button>
               <button
                 onClick={() => setShowDemo(true)}
-                className="px-8 py-3 border border-zinc-800 hover:border-zinc-700 text-white font-medium transition-colors bg-zinc-950 hover:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-black"
+                className="px-8 py-3 border border-white text-black font-medium transition-colors bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-black"
               >
                 Watch Demo
               </button>

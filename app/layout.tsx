@@ -6,34 +6,21 @@ export const metadata: Metadata = {
   description: 'Competitive player vs player debates with skill-based scoring. Challenge opponents, prove your arguments, and climb the leaderboards.',
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://fora.app'),
   icons: {
-    icon: [
-      { url: '/Logo.png', sizes: '192x192', type: 'image/png' },
-      { url: '/Logo.png', sizes: '512x512', type: 'image/png' },
-      { url: '/Logo.png', sizes: 'any' },
-    ],
-    apple: [
-      { url: '/Logo.png', sizes: '180x180', type: 'image/png' },
-    ],
+    icon: '/favicon.ico',
+    apple: '/favicon.ico',
   },
   manifest: '/manifest.json',
   openGraph: {
     title: 'FORA',
     description: 'Competitive player vs player debates with skill-based scoring. Challenge opponents, prove your arguments, and climb the leaderboards.',
     type: 'website',
-    images: [
-      {
-        url: '/Logo.png',
-        width: 1200,
-        height: 1200,
-        alt: 'Fora Logo',
-      },
-    ],
+    images: [],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'FORA',
     description: 'Competitive player vs player debates with skill-based scoring.',
-    images: ['/Logo.png'],
+    images: [],
   },
 }
 
