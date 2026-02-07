@@ -518,31 +518,6 @@ function HeroSection({ onWaitlistClick }: { onWaitlistClick: () => void }) {
   );
 }
 
-// Social Proof Section
-function SocialProof() {
-  const chips = ['Debate teams', 'Student orgs', 'Interview prep', 'Builders'];
-
-  return (
-    <section className="py-16 bg-zinc-950/80 backdrop-blur-sm border-y border-zinc-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="text-3xl md:text-4xl font-bold mb-3">Built for competitive thinkers.</h2>
-        <p className="text-zinc-100 mb-8 max-w-2xl mx-auto">
-          Students, debaters, founders, and anyone who likes winning with reasoning.
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-3">
-          {chips.map((chip, idx) => (
-            <div
-              key={idx}
-              className="px-4 py-2 border border-zinc-800 bg-black/50 rounded-sm"
-            >
-              <span className="text-zinc-200 text-sm">{chip}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 // Step Icon Component
 function StepIcon({ step }: { step: number }) {
@@ -1318,7 +1293,6 @@ export default function Page() {
       <HeroSection onWaitlistClick={() => setShowWaitlistModal(true)} />
       <ContactModal isOpen={showContactModal} onClose={() => setShowContactModal(false)} />
       <WaitlistModal isOpen={showWaitlistModal} onClose={() => setShowWaitlistModal(false)} />
-      <SocialProof />
       <HowItWorks />
       <ModesSection />
       <ScoringSystem />
