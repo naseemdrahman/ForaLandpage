@@ -80,7 +80,10 @@ async function saveViaAppsScript(entry: WaitlistEntry): Promise<{ success: boole
       return { success: false, error: 'Invalid response from Apps Script' };
     }
 
-    if (data.ok) {
+    if (data.ok && data.deduped) {
+      // Script found the email already exists but returned ok:true with deduped flag
+      return { success: false, reason: 'EMAIL_EXISTS', error: 'Email already registered' };
+    } else if (data.ok) {
       console.log('✅ Waitlist entry saved via Apps Script');
       return { success: true };
     } else if (data.error === 'Email already registered') {
