@@ -31,16 +31,7 @@ function doPost(e) {
         return makeJson({ ok: false, error: "Sheet not found: " + WAITLIST_SHEET });
       }
 
-      var lastRow = sheet.getLastRow();
-      if (lastRow > 1) {
-        var emails = sheet.getRange(2, 3, lastRow - 1, 1).getValues();
-        for (var i = 0; i < emails.length; i++) {
-          if (emails[i][0].toString().trim().toLowerCase() === email) {
-            return makeJson({ ok: true, deduped: true });
-          }
-        }
-      }
-
+      // Allow duplicate emails - just append the entry
       sheet.appendRow([new Date(), name, email, source]);
       return makeJson({ ok: true });
     }

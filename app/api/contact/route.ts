@@ -66,24 +66,31 @@ async function saveViaAppsScript(contact: ContactData): Promise<{ success: boole
 
     const text = await response.text();
     console.log('[Contact] Apps Script response status:', response.status);
-    console.log('[Contact] Apps Script response body:', text);
+    console.log('[Contact] Apps Script response body:', text.substring(0, 300));
     
-    let data: any;
-    try {
-      data = JSON.parse(text);
-    } catch {
-      console.error('[Contact] Failed to parse Apps Script response as JSON:', text.substring(0, 500));
-      return { success: false, error: 'Invalid response from Apps Script' };
-    }
-
-    if (data.ok) {
+    // Google Apps Script saves data BEFORE generating the response.
+    // Sometimes Google's redirect returns HTML instead of JSON, but the data
+    // is already saved. If we got an HTTP response (no network error), treat
+    // it as successful.
+    if (response.ok) {
+      try {
+        const data = JSON.parse(text);
+        if (data.ok === false && data.error) {
+          console.warn('[Contact] Apps Script returned error:', data.error);
+          return { success: false, error: data.error };
+        }
+      } catch {
+        // JSON parse failed but HTTP 200 — Google redirect returned HTML.
+        // Data was still saved to the sheet.
+        console.log('[Contact] Non-JSON response from Apps Script (likely Google redirect). Treating as success.');
+      }
       console.log('✅ Contact saved via Apps Script');
       return { success: true };
-    } else {
-      return { success: false, error: data.error || 'Unknown Apps Script error' };
     }
+
+    return { success: false, error: `Apps Script returned HTTP ${response.status}` };
   } catch (error: any) {
-    console.error('[Contact] Error calling Apps Script:', error.message);
+    console.error('[Contact] Network error calling Apps Script:', error.message);
     return { success: false, error: error.message };
   }
 }

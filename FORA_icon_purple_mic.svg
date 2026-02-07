@@ -1,0 +1,19 @@
+
+<svg width="512" height="512" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="64" rx="12" fill="#0B0B0F"/>
+  <g fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Mic capsule -->
+    <rect x="24" y="10" width="16" height="26" rx="8"/>
+    <!-- Grill lines -->
+    <line x1="28" y1="16" x2="36" y2="16"/>
+    <line x1="28" y1="20" x2="36" y2="20"/>
+    <line x1="28" y1="24" x2="36" y2="24"/>
+    <!-- Mic stem -->
+    <line x1="32" y1="36" x2="32" y2="42"/>
+    <!-- Base -->
+    <path d="M22 42h20"/>
+    <!-- Arena hint (subtle arcs) -->
+    <path d="M18 26c0 7.7 6.3 14 14 14"/>
+    <path d="M46 26c0 7.7-6.3 14-14 14"/>
+  </g>
+</svg>

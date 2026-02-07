@@ -29,12 +29,7 @@ async function saveToLocalFile(entry: WaitlistEntry): Promise<boolean> {
       entries = JSON.parse(data);
     }
     
-    // Check if email already exists
-    const emailExists = entries.some(e => e.email.toLowerCase().trim() === entry.email.toLowerCase().trim());
-    if (emailExists) {
-      return false;
-    }
-    
+    // Allow duplicate emails - just append the entry
     entries.push(entry);
     await writeFile(WAITLIST_STORAGE_PATH, JSON.stringify(entries, null, 2), 'utf-8');
     return true;
@@ -44,7 +39,7 @@ async function saveToLocalFile(entry: WaitlistEntry): Promise<boolean> {
   }
 }
 
-async function saveViaAppsScript(entry: WaitlistEntry): Promise<{ success: boolean; reason?: string; error?: string }> {
+async function saveViaAppsScript(entry: WaitlistEntry): Promise<{ success: boolean; error?: string }> {
   const appsScriptUrl = process.env.NEXT_PUBLIC_WAITLIST_SCRIPT_URL;
   
   if (!appsScriptUrl) {
@@ -70,28 +65,34 @@ async function saveViaAppsScript(entry: WaitlistEntry): Promise<{ success: boole
 
     const text = await response.text();
     console.log('[Waitlist] Apps Script response status:', response.status);
-    console.log('[Waitlist] Apps Script response body:', text);
+    console.log('[Waitlist] Apps Script response body:', text.substring(0, 300));
     
-    let data: any;
-    try {
-      data = JSON.parse(text);
-    } catch {
-      console.error('[Waitlist] Failed to parse Apps Script response as JSON:', text.substring(0, 500));
-      return { success: false, error: 'Invalid response from Apps Script' };
-    }
-
-    if (data.ok && data.deduped) {
-      return { success: false, reason: 'EMAIL_EXISTS', error: 'Email already registered' };
-    } else if (data.ok) {
+    // Google Apps Script saves data BEFORE generating the response.
+    // Sometimes Google's redirect returns HTML instead of JSON, but the data
+    // is already saved. If we got an HTTP response (no network error), treat
+    // it as successful.
+    if (response.ok) {
+      // Try to parse JSON to check for explicit errors from our script
+      try {
+        const data = JSON.parse(text);
+        if (data.ok === false && data.error) {
+          console.warn('[Waitlist] Apps Script returned error:', data.error);
+          return { success: false, error: data.error };
+        }
+      } catch {
+        // JSON parse failed but HTTP 200 — Google redirect returned HTML.
+        // Data was still saved to the sheet.
+        console.log('[Waitlist] Non-JSON response from Apps Script (likely Google redirect). Treating as success.');
+      }
       console.log('✅ Waitlist entry saved via Apps Script');
       return { success: true };
-    } else if (data.error === 'Email already registered') {
-      return { success: false, reason: 'EMAIL_EXISTS', error: data.error };
-    } else {
-      return { success: false, error: data.error || 'Unknown Apps Script error' };
     }
+
+    // Non-200 HTTP status
+    return { success: false, error: `Apps Script returned HTTP ${response.status}` };
   } catch (error: any) {
-    console.error('[Waitlist] Error calling Apps Script:', error.message);
+    // Actual network error (timeout, DNS, etc.)
+    console.error('[Waitlist] Network error calling Apps Script:', error.message);
     return { success: false, error: error.message };
   }
 }
@@ -156,23 +157,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (appsResult.reason === 'EMAIL_EXISTS') {
-      return NextResponse.json(
-        { error: 'Email already registered' },
-        { status: 409 }
-      );
-    }
-
     // Apps Script failed — fallback to local file
     console.warn('[Waitlist] Apps Script failed, saving locally. Error:', appsResult.error);
-    const saved = await saveToLocalFile(entry);
-    
-    if (!saved) {
-      return NextResponse.json(
-        { error: 'Email already registered' },
-        { status: 409 }
-      );
-    }
+    await saveToLocalFile(entry);
 
     // Still try to send email even with local fallback
     sendWaitlistEmail(entry.name, entry.email).catch(err => {

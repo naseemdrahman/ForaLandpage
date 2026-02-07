@@ -1136,9 +1136,6 @@ function WaitlistModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
         setStatusMessage('Thanks for joining our waitlist! We will be in touch soon!');
         setName('');
         setEmail('');
-      } else if (response.status === 409) {
-        setStatus('error');
-        setStatusMessage('This email is already on the waitlist!');
       } else {
         setStatus('error');
         setStatusMessage(data.error || 'Something went wrong. Please try again.');
