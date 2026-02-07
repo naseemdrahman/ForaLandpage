@@ -5,23 +5,17 @@ import Link from 'next/link';
 
 // Navbar Component
 function Navbar({ onContactClick }: { onContactClick: () => void }) {
-  const handleContactClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const contactSection = document.getElementById('contact');
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
-
   return (
     <nav className="sticky top-0 z-50 bg-black/80 backdrop-blur-sm border-b border-zinc-800">
       <div className="w-full flex items-center justify-between h-20 lg:h-24">
-        <Link href="/" className="text-white text-3xl lg:text-5xl font-bold tracking-tighter uppercase pl-4 sm:pl-6 lg:pl-8">
-          FORA
+        <Link href="/" className="flex items-center pl-4 sm:pl-6 lg:pl-8">
+          <span className="text-white text-3xl lg:text-5xl font-bold tracking-tighter uppercase">
+            FORA
+          </span>
         </Link>
         <div className="pr-4 sm:pr-6 lg:pr-8">
           <button
-            onClick={handleContactClick}
+            onClick={onContactClick}
             className="px-6 py-3 lg:px-8 lg:py-3 border border-zinc-800 hover:border-zinc-700 text-white text-base lg:text-lg font-medium transition-colors bg-zinc-950 hover:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-black"
           >
             Contact us
@@ -503,8 +497,18 @@ function HeroSection({ onWaitlistClick }: { onWaitlistClick: () => void }) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-            <div className="aspect-video bg-zinc-950 border border-zinc-800 flex items-center justify-center">
-              <p className="text-zinc-300">Demo video placeholder</p>
+            <div className="aspect-video bg-zinc-950 border border-zinc-800">
+              <video
+                className="w-full h-full object-contain"
+                controls
+                autoPlay
+                muted
+                playsInline
+              >
+                <source src="/Fora-Demo Vid Real.mov" type="video/quicktime" />
+                <source src="/Fora-Demo Vid Real.mov" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
             </div>
           </div>
         </div>
@@ -811,6 +815,60 @@ function LeaderboardPreview() {
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// Tournaments Section
+function TournamentsSection() {
+  return (
+    <section id="tournaments" className="py-24 bg-black/80 backdrop-blur-sm border-y border-zinc-800">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">Tournaments & Prizes</h2>
+        <div className="flex items-center justify-center gap-2 mb-12">
+          <svg className="w-5 h-5 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+          </svg>
+          <p className="text-sm text-zinc-300">Compete for prizes and climb the rankings.</p>
+        </div>
+        <div className="border border-zinc-800 bg-zinc-950 p-8 md:p-12">
+          <div className="grid md:grid-cols-3 gap-6 md:gap-8">
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-violet-600/20 border border-violet-600/30 mb-4">
+                <svg className="w-8 h-8 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Competitive Tournaments</h3>
+              <p className="text-zinc-300 text-sm">
+                Join structured tournaments where top performers compete for prizes and recognition.
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-violet-600/20 border border-violet-600/30 mb-4">
+                <svg className="w-8 h-8 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Win Prizes</h3>
+              <p className="text-zinc-300 text-sm">
+                Top-ranked debaters in tournaments earn prizes and rewards for their performance.
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-violet-600/20 border border-violet-600/30 mb-4">
+                <svg className="w-8 h-8 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Leaderboard Rankings</h3>
+              <p className="text-zinc-300 text-sm">
+                Tournament results directly impact your leaderboard position and overall rating.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -1258,7 +1316,7 @@ export default function Page() {
 
   return (
     <div className="min-h-screen animated-gradient text-white" style={{ scrollBehavior: 'smooth' }}>
-      <Navbar onContactClick={() => {}} />
+      <Navbar onContactClick={() => setShowContactModal(true)} />
       <HeroSection onWaitlistClick={() => setShowWaitlistModal(true)} />
       <ContactModal isOpen={showContactModal} onClose={() => setShowContactModal(false)} />
       <WaitlistModal isOpen={showWaitlistModal} onClose={() => setShowWaitlistModal(false)} />
@@ -1267,6 +1325,7 @@ export default function Page() {
       <ModesSection />
       <ScoringSystem />
       <LeaderboardPreview />
+      <TournamentsSection />
       <FAQ />
       <ContactSection onContactClick={() => setShowContactModal(true)} />
       <WaitlistSection onWaitlistClick={() => setShowWaitlistModal(true)} />
