@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { appendToSheet, emailExistsInSheet } from '@/lib/googleSheets';
+import { writeFile, readFile, mkdir } from 'fs/promises';
+import { existsSync } from 'fs';
+import path from 'path';
 
 interface WaitlistEntry {
   name: string;
@@ -7,33 +9,88 @@ interface WaitlistEntry {
   timestamp: string;
 }
 
-async function saveWaitlistEntry(entry: WaitlistEntry): Promise<boolean> {
+const WAITLIST_STORAGE_PATH = path.join(process.cwd(), 'data', 'waitlist.json');
+
+async function ensureDataDir() {
+  const dataDir = path.dirname(WAITLIST_STORAGE_PATH);
+  if (!existsSync(dataDir)) {
+    await mkdir(dataDir, { recursive: true });
+  }
+}
+
+async function saveToLocalFile(entry: WaitlistEntry): Promise<boolean> {
   try {
-    const spreadsheetId = process.env.GOOGLE_WAITLIST_SHEET_ID;
+    await ensureDataDir();
+    let entries: WaitlistEntry[] = [];
     
-    if (!spreadsheetId) {
-      console.error('GOOGLE_WAITLIST_SHEET_ID not configured');
+    if (existsSync(WAITLIST_STORAGE_PATH)) {
+      const data = await readFile(WAITLIST_STORAGE_PATH, 'utf-8');
+      entries = JSON.parse(data);
+    }
+    
+    // Check if email already exists
+    const emailExists = entries.some(e => e.email.toLowerCase().trim() === entry.email.toLowerCase().trim());
+    if (emailExists) {
       return false;
     }
-
-    // Check if email already exists in Google Sheet
-    const exists = await emailExistsInSheet(spreadsheetId, 'Waitlist!B:B', entry.email);
-    if (exists) {
-      return false; // Email already exists
-    }
-
-    // Append to Google Sheet
-    // Format: [Timestamp, Name, Email]
-    await appendToSheet(
-      spreadsheetId,
-      'Waitlist!A:C',
-      [entry.timestamp, entry.name, entry.email]
-    );
-
+    
+    entries.push(entry);
+    await writeFile(WAITLIST_STORAGE_PATH, JSON.stringify(entries, null, 2), 'utf-8');
     return true;
   } catch (error) {
-    console.error('Error saving waitlist entry:', error);
-    throw error;
+    console.error('Error saving to local file:', error);
+    return false;
+  }
+}
+
+async function saveViaAppsScript(entry: WaitlistEntry): Promise<{ success: boolean; reason?: string; error?: string }> {
+  const appsScriptUrl = process.env.NEXT_PUBLIC_WAITLIST_SCRIPT_URL;
+  
+  if (!appsScriptUrl) {
+    console.warn('NEXT_PUBLIC_WAITLIST_SCRIPT_URL not configured');
+    return { success: false, error: 'Apps Script URL not configured' };
+  }
+
+  try {
+    console.log('[Waitlist] Calling Apps Script URL server-side...');
+    
+    const response = await fetch(appsScriptUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain',
+      },
+      body: JSON.stringify({
+        name: entry.name,
+        email: entry.email,
+        source: 'waitlist-modal',
+      }),
+      redirect: 'follow',
+    });
+
+    // Google Apps Script may redirect — follow it and read the final response
+    const text = await response.text();
+    console.log('[Waitlist] Apps Script response status:', response.status);
+    console.log('[Waitlist] Apps Script response body:', text);
+    
+    let data: any;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      console.error('[Waitlist] Failed to parse Apps Script response as JSON:', text.substring(0, 500));
+      return { success: false, error: 'Invalid response from Apps Script' };
+    }
+
+    if (data.ok) {
+      console.log('✅ Waitlist entry saved via Apps Script');
+      return { success: true };
+    } else if (data.error === 'Email already registered') {
+      return { success: false, reason: 'EMAIL_EXISTS', error: data.error };
+    } else {
+      return { success: false, error: data.error || 'Unknown Apps Script error' };
+    }
+  } catch (error: any) {
+    console.error('[Waitlist] Error calling Apps Script:', error.message);
+    return { success: false, error: error.message };
   }
 }
 
@@ -66,14 +123,44 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Save waitlist entry
+    const now = new Date();
+    const formattedTimestamp = now.toLocaleString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true,
+      timeZone: 'America/New_York',
+    });
+    
     const entry: WaitlistEntry = {
       name: name.trim(),
       email: email.toLowerCase().trim(),
-      timestamp: new Date().toISOString(),
+      timestamp: formattedTimestamp,
     };
 
-    const saved = await saveWaitlistEntry(entry);
+    // Try Apps Script first (writes to Google Sheets)
+    const appsResult = await saveViaAppsScript(entry);
+    
+    if (appsResult.success) {
+      return NextResponse.json(
+        { message: 'Successfully joined waitlist!', entry, savedToSheets: true },
+        { status: 200 }
+      );
+    }
+
+    if (appsResult.reason === 'EMAIL_EXISTS') {
+      return NextResponse.json(
+        { error: 'Email already registered' },
+        { status: 409 }
+      );
+    }
+
+    // Apps Script failed — fallback to local file
+    console.warn('[Waitlist] Apps Script failed, saving locally. Error:', appsResult.error);
+    const saved = await saveToLocalFile(entry);
     
     if (!saved) {
       return NextResponse.json(
@@ -83,7 +170,7 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json(
-      { message: 'Successfully joined waitlist!', entry },
+      { message: 'Successfully joined waitlist!', entry, savedToSheets: false },
       { status: 200 }
     );
   } catch (error) {
@@ -94,4 +181,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-

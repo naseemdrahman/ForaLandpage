@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { appendToSheet } from '@/lib/googleSheets';
+import { writeFile, readFile, mkdir } from 'fs/promises';
+import { existsSync } from 'fs';
+import path from 'path';
 
 interface ContactData {
   name: string;
@@ -8,27 +10,80 @@ interface ContactData {
   timestamp: string;
 }
 
-async function saveContact(contact: ContactData): Promise<boolean> {
+const CONTACT_STORAGE_PATH = path.join(process.cwd(), 'data', 'contact.json');
+
+async function ensureDataDir() {
+  const dataDir = path.dirname(CONTACT_STORAGE_PATH);
+  if (!existsSync(dataDir)) {
+    await mkdir(dataDir, { recursive: true });
+  }
+}
+
+async function saveToLocalFile(contact: ContactData): Promise<boolean> {
   try {
-    const spreadsheetId = process.env.GOOGLE_CONTACT_SHEET_ID;
+    await ensureDataDir();
+    let entries: ContactData[] = [];
     
-    if (!spreadsheetId) {
-      console.error('GOOGLE_CONTACT_SHEET_ID not configured');
-      return false;
+    if (existsSync(CONTACT_STORAGE_PATH)) {
+      const data = await readFile(CONTACT_STORAGE_PATH, 'utf-8');
+      entries = JSON.parse(data);
     }
-
-    // Append to Google Sheet
-    // Format: [Timestamp, Name, Email, Message]
-    await appendToSheet(
-      spreadsheetId,
-      'Contacts!A:D',
-      [contact.timestamp, contact.name, contact.email, contact.message || '']
-    );
-
+    
+    entries.push(contact);
+    await writeFile(CONTACT_STORAGE_PATH, JSON.stringify(entries, null, 2), 'utf-8');
     return true;
   } catch (error) {
-    console.error('Error saving contact:', error);
-    throw error;
+    console.error('Error saving contact to local file:', error);
+    return false;
+  }
+}
+
+async function saveViaAppsScript(contact: ContactData): Promise<{ success: boolean; error?: string }> {
+  const appsScriptUrl = process.env.NEXT_PUBLIC_CONTACT_SCRIPT_URL;
+  
+  if (!appsScriptUrl) {
+    console.warn('NEXT_PUBLIC_CONTACT_SCRIPT_URL not configured');
+    return { success: false, error: 'Apps Script URL not configured' };
+  }
+
+  try {
+    console.log('[Contact] Calling Apps Script URL server-side...');
+    
+    const response = await fetch(appsScriptUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain',
+      },
+      body: JSON.stringify({
+        name: contact.name,
+        email: contact.email,
+        message: contact.message || '',
+        source: 'contact-modal',
+      }),
+      redirect: 'follow',
+    });
+
+    const text = await response.text();
+    console.log('[Contact] Apps Script response status:', response.status);
+    console.log('[Contact] Apps Script response body:', text);
+    
+    let data: any;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      console.error('[Contact] Failed to parse Apps Script response as JSON:', text.substring(0, 500));
+      return { success: false, error: 'Invalid response from Apps Script' };
+    }
+
+    if (data.ok) {
+      console.log('✅ Contact saved via Apps Script');
+      return { success: true };
+    } else {
+      return { success: false, error: data.error || 'Unknown Apps Script error' };
+    }
+  } catch (error: any) {
+    console.error('[Contact] Error calling Apps Script:', error.message);
+    return { success: false, error: error.message };
   }
 }
 
@@ -61,18 +116,48 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Save contact
+    const now = new Date();
+    const formattedTimestamp = now.toLocaleString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true,
+      timeZone: 'America/New_York',
+    });
+    
     const contactData: ContactData = {
       name: name.trim(),
       email: email.toLowerCase().trim(),
       message: message?.trim() || '',
-      timestamp: new Date().toISOString(),
+      timestamp: formattedTimestamp,
     };
 
-    await saveContact(contactData);
+    // Try Apps Script first (writes to Google Sheets)
+    const appsResult = await saveViaAppsScript(contactData);
+    
+    if (appsResult.success) {
+      return NextResponse.json(
+        { message: 'Contact information received!', contact: contactData, savedToSheets: true },
+        { status: 200 }
+      );
+    }
+
+    // Apps Script failed — fallback to local file
+    console.warn('[Contact] Apps Script failed, saving locally. Error:', appsResult.error);
+    const saved = await saveToLocalFile(contactData);
+    
+    if (!saved) {
+      return NextResponse.json(
+        { error: 'Failed to save your message. Please try again later.' },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json(
-      { message: 'Contact information received! We\'ll be in touch soon.', contact: contactData },
+      { message: 'Contact information received!', contact: contactData, savedToSheets: false },
       { status: 200 }
     );
   } catch (error) {
@@ -83,4 +168,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-

@@ -908,20 +908,11 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
     setStatus('loading');
     setStatusMessage('');
 
-    const appsScriptUrl = process.env.NEXT_PUBLIC_CONTACT_SCRIPT_URL;
-    
-    if (!appsScriptUrl) {
-      setStatus('error');
-      setStatusMessage('Configuration error. Please contact support.');
-      return;
-    }
-
     try {
-      // Add timeout to prevent hanging
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 8000);
+      const timeout = setTimeout(() => controller.abort(), 10000);
 
-      const response = await fetch(appsScriptUrl, {
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -930,8 +921,6 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
           name,
           email,
           message: message || '',
-          source: 'contact-modal',
-          ua: typeof navigator !== 'undefined' ? navigator.userAgent : '',
         }),
         signal: controller.signal,
       });
@@ -940,7 +929,7 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
 
       const data = await response.json().catch(() => ({}));
 
-      if (response.ok && data.ok) {
+      if (response.ok) {
         setStatus('success');
         setStatusMessage('Thank you! We\'ll be in touch soon.');
         setName('');
@@ -1063,20 +1052,11 @@ function WaitlistModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
     setStatus('loading');
     setStatusMessage('');
 
-    const appsScriptUrl = process.env.NEXT_PUBLIC_WAITLIST_SCRIPT_URL;
-    
-    if (!appsScriptUrl) {
-      setStatus('error');
-      setStatusMessage('Configuration error. Please contact support.');
-      return;
-    }
-
     try {
-      // Add timeout to prevent hanging
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 8000);
+      const timeout = setTimeout(() => controller.abort(), 10000);
 
-      const response = await fetch(appsScriptUrl, {
+      const response = await fetch('/api/waitlist', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1084,8 +1064,6 @@ function WaitlistModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
         body: JSON.stringify({
           name,
           email,
-          source: 'waitlist-modal',
-          ua: typeof navigator !== 'undefined' ? navigator.userAgent : '',
         }),
         signal: controller.signal,
       });
@@ -1094,13 +1072,14 @@ function WaitlistModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
 
       const data = await response.json().catch(() => ({}));
 
-      if (response.ok && data.ok) {
+      if (response.ok) {
         setStatus('success');
         setStatusMessage('Thanks for joining our waitlist! We will be in touch soon!');
-        // Clear fields immediately
         setName('');
         setEmail('');
-        // Don't auto-close - user must click X
+      } else if (response.status === 409) {
+        setStatus('error');
+        setStatusMessage('This email is already on the waitlist!');
       } else {
         setStatus('error');
         setStatusMessage(data.error || 'Something went wrong. Please try again.');
