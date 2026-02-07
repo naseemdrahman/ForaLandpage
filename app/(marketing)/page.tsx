@@ -5,6 +5,14 @@ import Link from 'next/link';
 
 // Navbar Component
 function Navbar({ onContactClick }: { onContactClick: () => void }) {
+  const handleContactClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
     <nav className="sticky top-0 z-50 bg-black/80 backdrop-blur-sm border-b border-zinc-800">
       <div className="w-full flex items-center justify-between h-20 lg:h-24">
@@ -13,7 +21,7 @@ function Navbar({ onContactClick }: { onContactClick: () => void }) {
         </Link>
         <div className="pr-4 sm:pr-6 lg:pr-8">
           <button
-            onClick={onContactClick}
+            onClick={handleContactClick}
             className="px-6 py-3 lg:px-8 lg:py-3 border border-zinc-800 hover:border-zinc-700 text-white text-base lg:text-lg font-medium transition-colors bg-zinc-950 hover:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-black"
           >
             Contact us
@@ -900,18 +908,39 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
     setStatus('loading');
     setStatusMessage('');
 
+    const appsScriptUrl = process.env.NEXT_PUBLIC_CONTACT_SCRIPT_URL;
+    
+    if (!appsScriptUrl) {
+      setStatus('error');
+      setStatusMessage('Configuration error. Please contact support.');
+      return;
+    }
+
     try {
-      const response = await fetch('/api/contact', {
+      // Add timeout to prevent hanging
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 8000);
+
+      const response = await fetch(appsScriptUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, email, message }),
+        body: JSON.stringify({
+          name,
+          email,
+          message: message || '',
+          source: 'contact-modal',
+          ua: typeof navigator !== 'undefined' ? navigator.userAgent : '',
+        }),
+        signal: controller.signal,
       });
 
-      const data = await response.json();
+      clearTimeout(timeout);
 
-      if (response.ok) {
+      const data = await response.json().catch(() => ({}));
+
+      if (response.ok && data.ok) {
         setStatus('success');
         setStatusMessage('Thank you! We\'ll be in touch soon.');
         setName('');
@@ -927,9 +956,13 @@ function ContactModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
         setStatus('error');
         setStatusMessage(data.error || 'Something went wrong. Please try again.');
       }
-    } catch (error) {
+    } catch (error: any) {
       setStatus('error');
-      setStatusMessage('Failed to connect. Please try again later.');
+      if (error.name === 'AbortError') {
+        setStatusMessage('Request timed out. Please try again.');
+      } else {
+        setStatusMessage('Failed to connect. Please try again later.');
+      }
     }
   };
 
@@ -1015,40 +1048,70 @@ function WaitlistModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [statusMessage, setStatusMessage] = useState('');
 
+  // Reset form when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      setName('');
+      setEmail('');
+      setStatus('idle');
+      setStatusMessage('');
+    }
+  }, [isOpen]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('loading');
     setStatusMessage('');
 
+    const appsScriptUrl = process.env.NEXT_PUBLIC_WAITLIST_SCRIPT_URL;
+    
+    if (!appsScriptUrl) {
+      setStatus('error');
+      setStatusMessage('Configuration error. Please contact support.');
+      return;
+    }
+
     try {
-      const response = await fetch('/api/waitlist', {
+      // Add timeout to prevent hanging
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 8000);
+
+      const response = await fetch(appsScriptUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, email }),
+        body: JSON.stringify({
+          name,
+          email,
+          source: 'waitlist-modal',
+          ua: typeof navigator !== 'undefined' ? navigator.userAgent : '',
+        }),
+        signal: controller.signal,
       });
 
-      const data = await response.json();
+      clearTimeout(timeout);
 
-      if (response.ok) {
+      const data = await response.json().catch(() => ({}));
+
+      if (response.ok && data.ok) {
         setStatus('success');
-        setStatusMessage('Successfully joined the waitlist! We\'ll be in touch soon.');
+        setStatusMessage('Thanks for joining our waitlist! We will be in touch soon!');
+        // Clear fields immediately
         setName('');
         setEmail('');
-        // Auto-close after 2 seconds on success
-        setTimeout(() => {
-          onClose();
-          setStatus('idle');
-          setStatusMessage('');
-        }, 2000);
+        // Don't auto-close - user must click X
       } else {
         setStatus('error');
         setStatusMessage(data.error || 'Something went wrong. Please try again.');
       }
-    } catch (error) {
+    } catch (error: any) {
       setStatus('error');
-      setStatusMessage('Failed to connect. Please try again later.');
+      if (error.name === 'AbortError') {
+        setStatusMessage('Request timed out. Please try again.');
+      } else {
+        setStatusMessage('Failed to connect. Please try again later.');
+      }
     }
   };
 
@@ -1071,49 +1134,54 @@ function WaitlistModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
-        <h2 className="text-3xl font-bold mb-2">Join Waitlist</h2>
-        <p className="text-zinc-300 mb-6">
-          Enter your name and email to join the waitlist.
-        </p>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Your name"
-            required
-            disabled={status === 'loading'}
-            className="w-full px-6 py-3 bg-black border border-violet-600/30 text-white placeholder-zinc-400 focus:outline-none focus:border-violet-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            autoFocus
-          />
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Your email"
-            required
-            disabled={status === 'loading'}
-            className="w-full px-6 py-3 bg-black border border-violet-600/30 text-white placeholder-zinc-400 focus:outline-none focus:border-violet-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          />
-          <button
-            type="submit"
-            disabled={status === 'loading'}
-            className="w-full px-8 py-3 bg-violet-600 hover:bg-violet-700 text-white font-medium transition-colors border border-violet-600 hover:border-violet-700 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-zinc-900"
-          >
-            {status === 'loading' ? 'Joining...' : 'Join Waitlist'}
-          </button>
-          {statusMessage && (
-            <div
-              className={`px-4 py-3 rounded-sm border ${
-                status === 'success'
-                  ? 'bg-violet-600/20 border-violet-600 text-violet-300'
-                  : 'bg-red-600/20 border-red-600 text-red-300'
-              }`}
-            >
+        {status === 'success' ? (
+          <>
+            <h2 className="text-3xl font-bold mb-6">Join Waitlist</h2>
+            <div className="px-4 py-3 rounded-sm border bg-violet-600/20 border-violet-600 text-violet-300">
               {statusMessage}
             </div>
-          )}
-        </form>
+          </>
+        ) : (
+          <>
+            <h2 className="text-3xl font-bold mb-2">Join Waitlist</h2>
+            <p className="text-zinc-300 mb-6">
+              Enter your name and email to join the waitlist.
+            </p>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Your name"
+                required
+                disabled={status === 'loading'}
+                className="w-full px-6 py-3 bg-black border border-violet-600/30 text-white placeholder-zinc-400 focus:outline-none focus:border-violet-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                autoFocus
+              />
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Your email"
+                required
+                disabled={status === 'loading'}
+                className="w-full px-6 py-3 bg-black border border-violet-600/30 text-white placeholder-zinc-400 focus:outline-none focus:border-violet-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              />
+              <button
+                type="submit"
+                disabled={status === 'loading'}
+                className="w-full px-8 py-3 bg-violet-600 hover:bg-violet-700 text-white font-medium transition-colors border border-violet-600 hover:border-violet-700 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-zinc-900"
+              >
+                {status === 'loading' ? 'Joining...' : 'Join Waitlist'}
+              </button>
+              {status === 'error' && statusMessage && (
+                <div className="px-4 py-3 rounded-sm border bg-red-600/20 border-red-600 text-red-300">
+                  {statusMessage}
+                </div>
+              )}
+            </form>
+          </>
+        )}
       </div>
     </div>
   );
@@ -1149,6 +1217,28 @@ function Footer() {
         </div>
       </div>
     </footer>
+  );
+}
+
+// Contact Section
+function ContactSection({ onContactClick }: { onContactClick: () => void }) {
+  return (
+    <section id="contact" className="py-24 bg-black/80 backdrop-blur-sm">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">Contact us</h2>
+        <p className="text-center text-zinc-100 mb-12 max-w-2xl mx-auto">
+          Have questions or feedback? Get in touch with us.
+        </p>
+        <div className="border border-zinc-800 bg-zinc-950 p-8 md:p-12">
+          <button
+            onClick={onContactClick}
+            className="w-full px-8 py-4 bg-zinc-900 hover:bg-zinc-800 text-white font-medium transition-colors border border-zinc-800 hover:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-zinc-950"
+          >
+            Open Contact Form
+          </button>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -1189,7 +1279,7 @@ export default function Page() {
 
   return (
     <div className="min-h-screen animated-gradient text-white" style={{ scrollBehavior: 'smooth' }}>
-      <Navbar onContactClick={() => setShowContactModal(true)} />
+      <Navbar onContactClick={() => {}} />
       <HeroSection onWaitlistClick={() => setShowWaitlistModal(true)} />
       <ContactModal isOpen={showContactModal} onClose={() => setShowContactModal(false)} />
       <WaitlistModal isOpen={showWaitlistModal} onClose={() => setShowWaitlistModal(false)} />
@@ -1199,6 +1289,7 @@ export default function Page() {
       <ScoringSystem />
       <LeaderboardPreview />
       <FAQ />
+      <ContactSection onContactClick={() => setShowContactModal(true)} />
       <WaitlistSection onWaitlistClick={() => setShowWaitlistModal(true)} />
       <Footer />
     </div>
