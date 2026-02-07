@@ -23,7 +23,7 @@ export async function appendToSheet(
   try {
     const sheets = await getSheetsClient();
     
-    await sheets.spreadsheets.values.append({
+    const response = await sheets.spreadsheets.values.append({
       spreadsheetId,
       range,
       valueInputOption: 'USER_ENTERED',
@@ -32,9 +32,21 @@ export async function appendToSheet(
       },
     });
 
+    console.log('✅ Successfully appended to Google Sheet:', {
+      spreadsheetId: spreadsheetId.substring(0, 20) + '...',
+      range,
+      updatedRows: response.data.updates?.updatedRows || 0,
+      values: values
+    });
     return true;
-  } catch (error) {
-    console.error('Error appending to Google Sheet:', error);
+  } catch (error: any) {
+    console.error('❌ Error appending to Google Sheet:', {
+      spreadsheetId: spreadsheetId?.substring(0, 20) + '...',
+      range,
+      errorMessage: error.message,
+      errorCode: error.code,
+      errorDetails: error.response?.data || error
+    });
     throw error;
   }
 }
@@ -48,17 +60,45 @@ export async function emailExistsInSheet(
   try {
     const sheets = await getSheetsClient();
     
+    console.log('🔍 Checking email in sheet:', { 
+      spreadsheetId: spreadsheetId.substring(0, 20) + '...', 
+      range, 
+      email 
+    });
+    
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId,
       range,
     });
 
     const rows = response.data.values || [];
-    const emailColumnIndex = 1; // Assuming email is in column B (index 1)
+    console.log(`📊 Rows found in sheet: ${rows.length}`);
     
-    return rows.some((row) => row[emailColumnIndex]?.toLowerCase().trim() === email.toLowerCase().trim());
-  } catch (error) {
-    console.error('Error checking email in Google Sheet:', error);
-    return false; // If check fails, allow submission
+    // Skip header row if it exists
+    const dataRows = rows.length > 0 && rows[0]?.[0]?.toLowerCase().includes('email') 
+      ? rows.slice(1) 
+      : rows;
+    
+    const emailColumnIndex = 1; // Email is in column B (index 1)
+    const normalizedEmail = email.toLowerCase().trim();
+    
+    const exists = dataRows.some((row) => {
+      const rowEmail = row[emailColumnIndex]?.toLowerCase().trim();
+      return rowEmail === normalizedEmail;
+    });
+    
+    console.log(exists ? '✅ Email already exists' : '✅ Email is new');
+    return exists;
+  } catch (error: any) {
+    console.error('❌ Error checking email in Google Sheet:', {
+      spreadsheetId: spreadsheetId?.substring(0, 20) + '...',
+      range,
+      email,
+      errorMessage: error.message,
+      errorCode: error.code,
+      errorDetails: error.response?.data || error
+    });
+    // If check fails, allow submission (don't block on check errors)
+    return false;
   }
 }
