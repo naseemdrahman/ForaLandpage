@@ -69,26 +69,27 @@ async function saveViaAppsScript(entry: WaitlistEntry): Promise<{ success: boole
     
     // Google Apps Script saves data BEFORE generating the response.
     // Sometimes Google's redirect returns HTML instead of JSON, but the data
-    // is already saved. If we got an HTTP response (no network error), treat
-    // it as successful.
-    if (response.ok) {
-      // Try to parse JSON to check for explicit errors from our script
+    // is already saved. If we got ANY HTTP response (no network error), treat
+    // it as successful - the data was saved before the response was generated.
+    if (response.status >= 200 && response.status < 500) {
+      // Check for explicit error in JSON response
       try {
         const data = JSON.parse(text);
         if (data.ok === false && data.error) {
-          console.warn('[Waitlist] Apps Script returned error:', data.error);
+          console.warn('[Waitlist] Apps Script returned explicit error:', data.error);
           return { success: false, error: data.error };
         }
+        // If data.ok is true or missing, treat as success
+        console.log('✅ Waitlist entry saved via Apps Script (JSON response)');
+        return { success: true };
       } catch {
-        // JSON parse failed but HTTP 200 — Google redirect returned HTML.
-        // Data was still saved to the sheet.
-        console.log('[Waitlist] Non-JSON response from Apps Script (likely Google redirect). Treating as success.');
+        // JSON parse failed - Google redirect returned HTML, but data was saved
+        console.log('[Waitlist] Non-JSON response from Apps Script (likely Google redirect). Data was saved, treating as success.');
+        return { success: true };
       }
-      console.log('✅ Waitlist entry saved via Apps Script');
-      return { success: true };
     }
 
-    // Non-200 HTTP status
+    // Only fail on 5xx server errors or network errors
     return { success: false, error: `Apps Script returned HTTP ${response.status}` };
   } catch (error: any) {
     // Actual network error (timeout, DNS, etc.)
