@@ -6,8 +6,7 @@ export const metadata: Metadata = {
   description: 'Competitive player vs player debates with skill-based scoring. Challenge opponents, prove your arguments, and climb the leaderboards.',
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fora.llc'),
   icons: {
-    icon: '/icon.png',
-    apple: '/apple-icon.png',
+    icon: '/favicon-v3.png',
   },
   manifest: '/manifest.json',
   openGraph: {
