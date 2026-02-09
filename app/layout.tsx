@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Analytics } from '@vercel/analytics/react'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -40,7 +41,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" style={{ scrollBehavior: 'smooth' }}>
-      <body style={{ scrollBehavior: 'auto' }}>{children}</body>
+      <body style={{ scrollBehavior: 'auto' }}>
+        {children}
+        <Analytics />
+      </body>
     </html>
   )
 }
