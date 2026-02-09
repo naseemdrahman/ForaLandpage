@@ -5,10 +5,6 @@ export const metadata: Metadata = {
   title: 'Fora',
   description: 'Competitive player vs player debates with skill-based scoring. Challenge opponents, prove your arguments, and climb the leaderboards.',
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fora.llc'),
-  icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
-  },
   manifest: '/manifest.json',
   openGraph: {
     title: 'Fora',
