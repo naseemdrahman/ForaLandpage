@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 
 // Navbar Component
@@ -10,9 +11,14 @@ function Navbar({ onContactClick }: { onContactClick: () => void }) {
     <nav className="sticky top-0 z-50 bg-black/80 backdrop-blur-sm border-b border-zinc-800">
       <div className="w-full flex items-center justify-between h-20 lg:h-24">
         <Link href="/" className="flex items-center pl-4 sm:pl-6 lg:pl-8">
-          <span className="text-white text-3xl lg:text-5xl font-bold tracking-tighter uppercase">
-            <span className="text-violet-500">F</span>ORA
-          </span>
+          <Image
+            src="/ForaLogoWhite.png"
+            alt="Fora"
+            width={160}
+            height={50}
+            className="h-10 lg:h-14 w-auto"
+            priority
+          />
         </Link>
         <div className="pr-4 sm:pr-6 lg:pr-8">
           <button
@@ -1205,7 +1211,13 @@ function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="flex items-center gap-3">
-            <span className="text-white text-2xl font-bold tracking-tighter uppercase">FORA</span>
+            <Image
+              src="/ForaLogoWhite.png"
+              alt="Fora"
+              width={120}
+              height={38}
+              className="h-8 w-auto"
+            />
             <p className="text-sm text-zinc-300">Competitive debate. Skill-based ranking.</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-6">

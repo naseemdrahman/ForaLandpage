@@ -17,9 +17,9 @@ export const metadata: Metadata = {
     siteName: 'Fora',
     images: [
       {
-        url: '/Logo.png',
-        width: 1536,
-        height: 1024,
+        url: '/ForaLogoWhite.png',
+        width: 2907,
+        height: 1282,
         alt: 'Fora',
       },
     ],
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     description: 'Competitive player vs player debates with skill-based scoring.',
     images: [
       {
-        url: '/Logo.png',
+        url: '/ForaLogoWhite.png',
         alt: 'Fora',
       },
     ],
