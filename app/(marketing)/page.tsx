@@ -463,9 +463,6 @@ function HeroSection({ onWaitlistClick }: { onWaitlistClick: () => void }) {
             <p className="text-xl md:text-2xl text-zinc-100 max-w-2xl mx-auto mb-3">
               Ranked debates with skill-based scoring. Challenge opponents, get evaluated on clarity and logic, and climb the leaderboard.
             </p>
-            <p className="text-sm md:text-base text-zinc-300 max-w-2xl mx-auto mb-10">
-              Unlike forums or comment sections, FORA is structured, ranked, and skill-based.
-            </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
               <button
                 onClick={onWaitlistClick}
@@ -524,6 +521,18 @@ function HeroSection({ onWaitlistClick }: { onWaitlistClick: () => void }) {
   );
 }
 
+// Why FORA Section
+function WhyForaSection() {
+  return (
+    <section className="py-16 bg-black/60 backdrop-blur-sm border-y border-zinc-800">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <p className="text-lg md:text-xl text-zinc-200 leading-relaxed">
+          Unlike forums or comment sections, <span className="text-violet-400 font-semibold">FORA is structured, ranked, and skill-based</span>.
+        </p>
+      </div>
+    </section>
+  );
+}
 
 // Step Icon Component
 function StepIcon({ step }: { step: number }) {
@@ -1305,6 +1314,7 @@ export default function Page() {
       <HeroSection onWaitlistClick={() => setShowWaitlistModal(true)} />
       <ContactModal isOpen={showContactModal} onClose={() => setShowContactModal(false)} />
       <WaitlistModal isOpen={showWaitlistModal} onClose={() => setShowWaitlistModal(false)} />
+      <WhyForaSection />
       <HowItWorks />
       <ModesSection />
       <ScoringSystem />
