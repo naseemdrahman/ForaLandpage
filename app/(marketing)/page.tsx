@@ -16,7 +16,7 @@ function Navbar({ onContactClick }: { onContactClick: () => void }) {
             alt="Fora"
             width={160}
             height={50}
-            className="h-10 lg:h-14 w-auto"
+            className="h-12 lg:h-16 w-auto"
             priority
           />
         </Link>
@@ -1216,7 +1216,7 @@ function Footer() {
               alt="Fora"
               width={120}
               height={38}
-              className="h-8 w-auto"
+              className="h-10 w-auto"
             />
             <p className="text-sm text-zinc-300">Competitive debate. Skill-based ranking.</p>
           </div>
