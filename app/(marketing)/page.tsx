@@ -427,7 +427,7 @@ function HeroDebateVisual() {
 function ScrollIndicator() {
   return (
     <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-3 z-10">
-      <p className="text-white text-base font-medium">Scroll down to learn more:</p>
+      <p className="text-zinc-400 text-sm font-medium uppercase tracking-wider">See how it works</p>
       <div className="animate-bounce">
         <svg
           className="w-12 h-12 text-white"
@@ -458,10 +458,10 @@ function HeroSection({ onWaitlistClick }: { onWaitlistClick: () => void }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
             <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
-              Debate like a sport.
+              Ranked 1v1 debate.
             </h1>
             <p className="text-xl md:text-2xl text-zinc-100 max-w-2xl mx-auto mb-3">
-              Ranked debates with skill-based scoring. Challenge opponents, get evaluated on clarity and logic, and climb the leaderboard.
+              Short-form debates with transparent scoring and Elo-style ratings. Pick a topic, face an opponent, get scored across four dimensions. Your rating updates after every match.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
               <button
@@ -527,7 +527,7 @@ function WhyForaSection() {
     <section className="py-16 bg-black/60 backdrop-blur-sm border-y border-zinc-800">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <p className="text-lg md:text-xl text-zinc-200 leading-relaxed">
-          Unlike forums or comment sections, <span className="text-violet-400 font-semibold">FORA is structured, ranked, and skill-based</span>.
+          Short-form. Structured. Scored. <span className="text-violet-400 font-semibold">Every debate has a winner.</span>
         </p>
       </div>
     </section>
@@ -559,16 +559,16 @@ function StepIcon({ step }: { step: number }) {
 function HowItWorks() {
   const steps = [
     {
-      title: 'Debate',
-      description: 'Challenge a player or practice against AI. Choose your topic and make your case.',
+      title: 'Challenge',
+      description: 'Pick a topic and match against an opponent. Timed rounds keep debates focused and sharp.',
     },
     {
       title: 'Get scored',
-      description: 'Receive rubric-based evaluation across clarity, logic, evidence, and civility.',
+      description: 'After the final round, both players receive a full score breakdown across clarity, logic, evidence, and composure.',
     },
     {
-      title: 'Climb ranks',
-      description: 'Your rating adjusts with each debate. Compete for top spots on global and topic-based leaderboards.',
+      title: 'Rating updates',
+      description: 'Your Elo-style rating adjusts based on performance and opponent strength. Win against stronger players to climb faster.',
     },
   ];
 
@@ -594,9 +594,9 @@ function HowItWorks() {
 function ModesSection() {
   const modes = [
     {
-      title: 'Challenge Players',
-      description: 'Async turn-based debates. Challenge any player and compete on skill.',
-      note: 'Async turn-based. No timers. No pressure.',
+      title: 'Ranked 1v1',
+      description: 'Queue into rated matches against real opponents. Your rating is on the line every round.',
+      note: 'Rating stakes. Serious opponents.',
       icon: (
         <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -604,9 +604,9 @@ function ModesSection() {
       ),
     },
     {
-      title: 'Practice Mode',
-      description: 'AI opponents with adjustable difficulty. Sharpen your skills before competing.',
-      note: 'Practice privately before playing ranked.',
+      title: 'Training Mode',
+      description: 'Sharpen your game against AI with adjustable difficulty before queuing ranked.',
+      note: 'Drill mechanics. Test strategies.',
       icon: (
         <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
@@ -615,7 +615,8 @@ function ModesSection() {
     },
     {
       title: 'Leaderboards',
-      description: 'Global and topic-based rankings. Track progress and compete for top spots.',
+      description: 'Global and topic-specific rankings. See where you stand and who\'s climbing.',
+      note: 'Updated after every rated match.',
       icon: (
         <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
@@ -713,15 +714,15 @@ function ScoringSystem() {
   return (
     <section id="scoring" className="py-24 bg-black/80 backdrop-blur-sm">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">Scoring System</h2>
+        <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">Your Scorecard</h2>
         <p className="text-center text-zinc-100 mb-3 max-w-2xl mx-auto">
-          Every debate is evaluated across four dimensions. Fair, transparent, and skill-based.
+          Every debate produces a full performance breakdown. Same rubric, every time. You always know exactly why you won or lost.
         </p>
         <div className="flex items-center justify-center gap-2 mb-12">
           <svg className="w-4 h-4 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <p className="text-sm text-zinc-300">Fixed rubric. Same criteria for everyone.</p>
+          <p className="text-sm text-zinc-300">No hidden criteria. No subjectivity. Full transparency.</p>
         </div>
         <div className="border border-zinc-800 bg-zinc-950 p-8 md:p-12">
           {/* Score Cards Grid */}
@@ -737,8 +738,73 @@ function ScoringSystem() {
               <svg className="w-4 h-4 text-violet-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <p className="text-sm text-zinc-300">Civility is rewarded. Abuse is not tolerated.</p>
+              <p className="text-sm text-zinc-300">Ad hominem attacks cost points. Strong rebuttals earn them. Composure is a competitive advantage.</p>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// Progression Section - The Competitive Loop
+function ProgressionSection() {
+  const milestones = [
+    { rating: 1200, label: 'Starter', color: '#71717A' },
+    { rating: 1450, label: 'Contender', color: '#8B5CF6' },
+    { rating: 1680, label: 'Strategist', color: '#7C3AED' },
+    { rating: 1900, label: 'Expert', color: '#6D28D9' },
+    { rating: 2200, label: 'Master', color: '#5B21B6' },
+  ];
+
+  return (
+    <section id="progression" className="py-24 bg-zinc-950/80 backdrop-blur-sm border-y border-zinc-800">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">The Loop</h2>
+        <p className="text-center text-zinc-100 mb-16 max-w-2xl mx-auto">
+          Debate. Get scored. Rating adjusts. Queue again. Every match makes you sharper.
+        </p>
+
+        {/* Competitive Loop */}
+        <div className="border border-zinc-800 bg-black p-8 md:p-12 mb-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            {['Debate', 'Score', 'Rate', 'Repeat'].map((step, idx) => (
+              <div key={idx} className="relative">
+                <div className="w-14 h-14 mx-auto border border-violet-600/40 bg-violet-600/10 flex items-center justify-center mb-3">
+                  <span className="text-violet-400 text-lg font-bold">{idx + 1}</span>
+                </div>
+                <p className="text-white font-semibold text-lg">{step}</p>
+                {idx < 3 && (
+                  <div className="hidden md:block absolute top-7 -right-3 text-violet-600/40">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Rating Progression */}
+        <div className="border border-zinc-800 bg-black p-8 md:p-12">
+          <h3 className="text-xl font-semibold mb-2 text-center">Rating Progression</h3>
+          <p className="text-sm text-zinc-400 text-center mb-8">Your rating tells your story. Every rank is earned.</p>
+          <div className="flex items-end justify-between gap-2 md:gap-4 max-w-2xl mx-auto">
+            {milestones.map((m, idx) => (
+              <div key={idx} className="flex-1 flex flex-col items-center gap-2">
+                <span className="text-xs md:text-sm font-bold" style={{ color: m.color }}>{m.rating}</span>
+                <div
+                  className="w-full rounded-sm transition-all duration-500"
+                  style={{
+                    height: `${40 + idx * 28}px`,
+                    backgroundColor: m.color,
+                    opacity: 0.8,
+                  }}
+                />
+                <span className="text-xs text-zinc-400 font-medium">{m.label}</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -764,7 +830,7 @@ function LeaderboardPreview() {
           <svg className="w-4 h-4 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <p className="text-sm text-zinc-300">Ranks update from scored debates only.</p>
+          <p className="text-sm text-zinc-300">Every win and loss is public. Your rank tells your story.</p>
         </div>
         <div className="border border-zinc-800 bg-black overflow-hidden">
           <div className="overflow-x-auto">
@@ -818,12 +884,12 @@ function TournamentsSection() {
   return (
     <section id="tournaments" className="py-24 bg-black/80 backdrop-blur-sm border-y border-zinc-800">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">Tournaments & Prizes</h2>
+        <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">Tournaments</h2>
         <div className="flex items-center justify-center gap-2 mb-12">
           <svg className="w-5 h-5 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
           </svg>
-          <p className="text-sm text-zinc-300">Compete for prizes and climb the rankings.</p>
+          <p className="text-sm text-zinc-300">Bracket-style competitions with real stakes.</p>
         </div>
         <div className="border border-zinc-800 bg-zinc-950 p-8 md:p-12">
           <div className="grid md:grid-cols-3 gap-6 md:gap-8">
@@ -833,9 +899,9 @@ function TournamentsSection() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Competitive Tournaments</h3>
+              <h3 className="text-xl font-semibold mb-2">Structured Brackets</h3>
               <p className="text-zinc-300 text-sm">
-                Join structured tournaments where top performers compete for prizes and recognition.
+                Single and double elimination tournaments across topic categories. Every round matters.
               </p>
             </div>
             <div className="text-center">
@@ -844,9 +910,9 @@ function TournamentsSection() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Win Prizes</h3>
+              <h3 className="text-xl font-semibold mb-2">Prize Pools</h3>
               <p className="text-zinc-300 text-sm">
-                Top-ranked debaters in tournaments earn prizes and rewards for their performance.
+                Top performers in each tournament compete for cash and recognition. Skill pays.
               </p>
             </div>
             <div className="text-center">
@@ -855,9 +921,9 @@ function TournamentsSection() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Leaderboard Rankings</h3>
+              <h3 className="text-xl font-semibold mb-2">Rating Impact</h3>
               <p className="text-zinc-300 text-sm">
-                Tournament results directly impact your leaderboard position and overall rating.
+                Tournament results carry extra weight in your overall ranking. High stakes, high reward.
               </p>
             </div>
           </div>
@@ -898,34 +964,34 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
 function FAQ() {
   const faqs = [
     {
-      question: 'How does the scoring system work?',
+      question: 'How does scoring work?',
       answer:
-        'Each debate is evaluated across four dimensions: Clarity, Logic, Evidence, and Civility. Scores are calculated using AI analysis combined with peer review mechanisms to ensure fairness and transparency.',
+        'Every debate is scored across four dimensions: Clarity, Logic, Evidence, and Civility. You receive a full breakdown after each match so you know exactly where you performed well and where to improve. The same rubric applies to every player, every time.',
     },
     {
-      question: 'How do I choose debate topics?',
+      question: 'What topics can I debate?',
       answer:
-        'You can select from our curated library of debate topics across politics, philosophy, science, technology, and more. Topics are regularly updated to keep debates fresh and relevant.',
+        'Choose from a curated set of topic categories including politics, philosophy, science, technology, ethics, and more. New topics rotate regularly. You can also challenge opponents on specific propositions.',
     },
     {
-      question: 'How do player vs player debates work?',
+      question: 'How does a 1v1 debate work?',
       answer:
-        'Debates are asynchronous and turn-based. Challenge any player to a debate on a topic of your choice. Both players have a set time window to respond. Each participant takes turns crafting their arguments until the debate concludes.',
+        'Each debate is structured with timed rounds. You and your opponent take turns making arguments within a set time window. After the final round, both players receive scores and the winner is determined. Debates are designed to be short and focused.',
     },
     {
-      question: 'Is there a practice mode?',
+      question: 'Can I practice before playing ranked?',
       answer:
-        'Yes. You can practice against AI opponents to sharpen your skills before challenging real players. Practice mode uses advanced AI, and difficulty levels can be adjusted.',
+        'Yes. Training mode lets you face AI opponents at adjustable difficulty levels. Use it to test strategies and sharpen your argumentation before putting your rating on the line.',
     },
     {
-      question: 'How are leaderboards calculated?',
+      question: 'How does the rating system work?',
       answer:
-        'Leaderboards are based on your rating, which is calculated using an Elo-like system. Ratings adjust based on your performance in player vs player debates. Win against higher-rated opponents to climb faster.',
+        'FORA uses an Elo-style rating system. Your rating adjusts after every ranked match based on your score and your opponent\'s strength. Beat higher-rated players to climb faster. Lose to lower-rated players and your rating drops more. It rewards consistency and improvement.',
     },
     {
-      question: 'Is there a cost to use FORA?',
+      question: 'What does FORA cost?',
       answer:
-        'FORA is currently in beta. Early access is free for waitlist members. Future pricing will be announced before launch.',
+        'FORA is currently in beta. Waitlist members get free early access. Pricing details will be shared before public launch.',
     },
   ];
 
@@ -1278,9 +1344,9 @@ function WaitlistSection({ onWaitlistClick }: { onWaitlistClick: () => void }) {
   return (
     <section id="waitlist" className="py-32 bg-zinc-950/80 backdrop-blur-sm border-y border-zinc-800">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="text-5xl md:text-6xl font-bold mb-6">Get early access.</h2>
+        <h2 className="text-5xl md:text-6xl font-bold mb-6">Ready to compete?</h2>
         <p className="text-xl text-zinc-100 mb-12">
-          Join the waitlist. We'll onboard in waves.
+          Join the waitlist. We're onboarding in waves.
         </p>
         <button
           onClick={onWaitlistClick}
@@ -1318,6 +1384,7 @@ export default function Page() {
       <HowItWorks />
       <ModesSection />
       <ScoringSystem />
+      <ProgressionSection />
       <LeaderboardPreview />
       <TournamentsSection />
       <FAQ />
