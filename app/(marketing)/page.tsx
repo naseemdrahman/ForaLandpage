@@ -458,17 +458,17 @@ function HeroSection({ onWaitlistClick }: { onWaitlistClick: () => void }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
             <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
-              Ranked 1v1 debate.
+              Short debates. Clear winners. Real rankings.
             </h1>
             <p className="text-xl md:text-2xl text-zinc-100 max-w-2xl mx-auto mb-3">
-              Short-form debates with transparent scoring and Elo-style ratings. Pick a topic, face an opponent, get scored across four dimensions. Your rating updates after every match.
+              1v1 ranked matches with transparent scoring.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
               <button
                 onClick={onWaitlistClick}
                 className="px-8 py-3 bg-violet-600 hover:bg-violet-700 text-white font-medium transition-colors border border-violet-600 hover:border-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-black"
               >
-                Join Waitlist
+                Secure Early Access
               </button>
               <button
                 onClick={() => setShowDemo(true)}
@@ -560,15 +560,15 @@ function HowItWorks() {
   const steps = [
     {
       title: 'Challenge',
-      description: 'Pick a topic and match against an opponent. Timed rounds keep debates focused and sharp.',
+      description: 'Pick a topic. Match 1v1. Timed rounds keep it sharp.',
     },
     {
       title: 'Get scored',
-      description: 'After the final round, both players receive a full score breakdown across clarity, logic, evidence, and composure.',
+      description: 'Transparent rubric. You\'ll know why you won or lost.',
     },
     {
       title: 'Rating updates',
-      description: 'Your Elo-style rating adjusts based on performance and opponent strength. Win against stronger players to climb faster.',
+      description: 'Your Elo moves every match. Beat stronger opponents to climb faster.',
     },
   ];
 
@@ -595,7 +595,7 @@ function ModesSection() {
   const modes = [
     {
       title: 'Ranked 1v1',
-      description: 'Queue into rated matches against real opponents. Your rating is on the line every round.',
+      description: 'Queue into rated matches. Your rating is on the line every round.',
       note: 'Rating stakes. Serious opponents.',
       icon: (
         <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -604,8 +604,8 @@ function ModesSection() {
       ),
     },
     {
-      title: 'Training Mode',
-      description: 'Sharpen your game against AI with adjustable difficulty before queuing ranked.',
+      title: 'Practice Mode',
+      description: 'Practice against AI with adjustable difficulty before queuing ranked.',
       note: 'Drill mechanics. Test strategies.',
       icon: (
         <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -615,7 +615,7 @@ function ModesSection() {
     },
     {
       title: 'Leaderboards',
-      description: 'Global and topic-specific rankings. See where you stand and who\'s climbing.',
+      description: 'Global and topic rankings. Track your climb.',
       note: 'Updated after every rated match.',
       icon: (
         <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -706,9 +706,8 @@ function ScoreCard({ label, value, color }: { label: string; value: number; colo
 function ScoringSystem() {
   const dimensions = [
     { label: 'Clarity', value: 95, color: '#8B5CF6' },
-    { label: 'Logic', value: 88, color: '#7C3AED' },
-    { label: 'Evidence', value: 92, color: '#6D28D9' },
-    { label: 'Civility', value: 90, color: '#8B5CF6' },
+    { label: 'Evidence', value: 92, color: '#7C3AED' },
+    { label: 'Rebuttal', value: 88, color: '#6D28D9' },
   ];
 
   return (
@@ -726,19 +725,18 @@ function ScoringSystem() {
         </div>
         <div className="border border-zinc-800 bg-zinc-950 p-8 md:p-12">
           {/* Score Cards Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8">
+          <div className="grid grid-cols-3 gap-4 md:gap-6 mb-8">
             {dimensions.map((dim, idx) => (
               <ScoreCard key={idx} label={dim.label} value={dim.value} color={dim.color} />
             ))}
           </div>
 
-          {/* Civility message */}
           <div className="mt-6 pt-6 border-t border-zinc-800">
             <div className="flex items-start gap-2">
               <svg className="w-4 h-4 text-violet-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <p className="text-sm text-zinc-300">Ad hominem attacks cost points. Strong rebuttals earn them. Composure is a competitive advantage.</p>
+              <p className="text-sm text-zinc-300">Criteria-based scoring. No ideology.</p>
             </div>
           </div>
         </div>
@@ -762,7 +760,7 @@ function ProgressionSection() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-4xl md:text-5xl font-bold text-center mb-4">The Loop</h2>
         <p className="text-center text-zinc-100 mb-16 max-w-2xl mx-auto">
-          Debate. Get scored. Rating adjusts. Queue again. Every match makes you sharper.
+          Debate → Score → Rating moves → Queue again.
         </p>
 
         {/* Competitive Loop */}
@@ -830,7 +828,7 @@ function LeaderboardPreview() {
           <svg className="w-4 h-4 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <p className="text-sm text-zinc-300">Every win and loss is public. Your rank tells your story.</p>
+          <p className="text-sm text-zinc-300">Your rank tells your story here.</p>
         </div>
         <div className="border border-zinc-800 bg-black overflow-hidden">
           <div className="overflow-x-auto">
@@ -889,7 +887,7 @@ function TournamentsSection() {
           <svg className="w-5 h-5 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
           </svg>
-          <p className="text-sm text-zinc-300">Bracket-style competitions with real stakes.</p>
+          <p className="text-sm text-zinc-300">Structured brackets. Compete for rank.</p>
         </div>
         <div className="border border-zinc-800 bg-zinc-950 p-8 md:p-12">
           <div className="grid md:grid-cols-3 gap-6 md:gap-8">
@@ -912,7 +910,7 @@ function TournamentsSection() {
               </div>
               <h3 className="text-xl font-semibold mb-2">Prize Pools</h3>
               <p className="text-zinc-300 text-sm">
-                Top performers in each tournament compete for cash and recognition. Skill pays.
+                Top performers compete for recognition and rank rewards.
               </p>
             </div>
             <div className="text-center">
@@ -966,7 +964,7 @@ function FAQ() {
     {
       question: 'How does scoring work?',
       answer:
-        'Every debate is scored across four dimensions: Clarity, Logic, Evidence, and Civility. You receive a full breakdown after each match so you know exactly where you performed well and where to improve. The same rubric applies to every player, every time.',
+        'Every debate is scored across three dimensions: Clarity, Evidence, and Rebuttal. You get a full breakdown after each match. Same rubric, every player, every time.',
     },
     {
       question: 'What topics can I debate?',
@@ -979,14 +977,9 @@ function FAQ() {
         'Each debate is structured with timed rounds. You and your opponent take turns making arguments within a set time window. After the final round, both players receive scores and the winner is determined. Debates are designed to be short and focused.',
     },
     {
-      question: 'Can I practice before playing ranked?',
-      answer:
-        'Yes. Training mode lets you face AI opponents at adjustable difficulty levels. Use it to test strategies and sharpen your argumentation before putting your rating on the line.',
-    },
-    {
       question: 'How does the rating system work?',
       answer:
-        'FORA uses an Elo-style rating system. Your rating adjusts after every ranked match based on your score and your opponent\'s strength. Beat higher-rated players to climb faster. Lose to lower-rated players and your rating drops more. It rewards consistency and improvement.',
+        'FORA uses an Elo-style rating system. Your rating adjusts after every ranked match based on your score and your opponent\'s strength. Beat higher-rated players to climb faster. Lose to lower-rated players and your rating drops more.',
     },
     {
       question: 'What does FORA cost?',
@@ -1227,14 +1220,14 @@ function WaitlistModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
         </button>
         {status === 'success' ? (
           <>
-            <h2 className="text-3xl font-bold mb-6">Join Waitlist</h2>
+            <h2 className="text-3xl font-bold mb-6">Secure Early Access</h2>
             <div className="px-4 py-3 rounded-sm border bg-violet-600/20 border-violet-600 text-violet-300">
               {statusMessage}
             </div>
           </>
         ) : (
           <>
-            <h2 className="text-3xl font-bold mb-2">Join Waitlist</h2>
+            <h2 className="text-3xl font-bold mb-2">Secure Early Access</h2>
             <p className="text-zinc-300 mb-6">
               Enter your name and email to join the waitlist.
             </p>
@@ -1263,7 +1256,7 @@ function WaitlistModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
                 disabled={status === 'loading'}
                 className="w-full px-8 py-3 bg-violet-600 hover:bg-violet-700 text-white font-medium transition-colors border border-violet-600 hover:border-violet-700 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-zinc-900"
               >
-                {status === 'loading' ? 'Joining...' : 'Join Waitlist'}
+                {status === 'loading' ? 'Securing...' : 'Secure Early Access'}
               </button>
               {status === 'error' && statusMessage && (
                 <div className="px-4 py-3 rounded-sm border bg-red-600/20 border-red-600 text-red-300">
@@ -1293,7 +1286,7 @@ function Footer() {
               height={38}
               className="h-10 w-auto"
             />
-            <p className="text-sm text-zinc-300">Competitive debate. Skill-based ranking.</p>
+            <p className="text-sm text-zinc-300">FORA</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-6">
             <div className="flex items-center gap-6">
@@ -1346,13 +1339,13 @@ function WaitlistSection({ onWaitlistClick }: { onWaitlistClick: () => void }) {
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="text-5xl md:text-6xl font-bold mb-6">Ready to compete?</h2>
         <p className="text-xl text-zinc-100 mb-12">
-          Join the waitlist. We're onboarding in waves.
+          We're onboarding in waves.
         </p>
         <button
           onClick={onWaitlistClick}
           className="px-8 py-3 bg-violet-600 hover:bg-violet-700 text-white font-medium transition-colors border border-violet-600 hover:border-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-zinc-950"
         >
-          Join Waitlist
+          Secure Early Access
         </button>
       </div>
     </section>
