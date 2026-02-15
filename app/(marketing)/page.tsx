@@ -457,6 +457,11 @@ function HeroSection({ onWaitlistClick }: { onWaitlistClick: () => void }) {
         <FloatingBackgroundElements />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
+            <div className="inline-block px-8 py-3 mb-8 bg-violet-600/30 border-2 border-violet-500/60 rounded-full">
+              <p className="text-lg md:text-2xl text-violet-200 font-semibold">
+                Free Inaugural Debate Tournament — March 28, 2PM EST
+              </p>
+            </div>
             <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
               Short debates. Clear winners. Real rankings.
             </h1>
@@ -468,7 +473,7 @@ function HeroSection({ onWaitlistClick }: { onWaitlistClick: () => void }) {
                 onClick={onWaitlistClick}
                 className="px-8 py-3 bg-violet-600 hover:bg-violet-700 text-white font-medium transition-colors border border-violet-600 hover:border-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-black"
               >
-                Secure Early Access
+                Sign Up for Tournament
               </button>
               <button
                 onClick={() => setShowDemo(true)}
@@ -1220,16 +1225,16 @@ function WaitlistModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
         </button>
         {status === 'success' ? (
           <>
-            <h2 className="text-3xl font-bold mb-6">Secure Early Access</h2>
+            <h2 className="text-3xl font-bold mb-6">Sign Up for Tournament</h2>
             <div className="px-4 py-3 rounded-sm border bg-violet-600/20 border-violet-600 text-violet-300">
               {statusMessage}
             </div>
           </>
         ) : (
           <>
-            <h2 className="text-3xl font-bold mb-2">Secure Early Access</h2>
+            <h2 className="text-3xl font-bold mb-2">Sign Up for Tournament</h2>
             <p className="text-zinc-300 mb-6">
-              Enter your name and email to join the waitlist.
+              Enter your name and email to reserve your spot in the tournament.
             </p>
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <input
@@ -1256,7 +1261,7 @@ function WaitlistModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => vo
                 disabled={status === 'loading'}
                 className="w-full px-8 py-3 bg-violet-600 hover:bg-violet-700 text-white font-medium transition-colors border border-violet-600 hover:border-violet-700 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-zinc-900"
               >
-                {status === 'loading' ? 'Securing...' : 'Secure Early Access'}
+                {status === 'loading' ? 'Signing up...' : 'Sign Up for Tournament'}
               </button>
               {status === 'error' && statusMessage && (
                 <div className="px-4 py-3 rounded-sm border bg-red-600/20 border-red-600 text-red-300">
@@ -1345,7 +1350,7 @@ function WaitlistSection({ onWaitlistClick }: { onWaitlistClick: () => void }) {
           onClick={onWaitlistClick}
           className="px-8 py-3 bg-violet-600 hover:bg-violet-700 text-white font-medium transition-colors border border-violet-600 hover:border-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-zinc-950"
         >
-          Secure Early Access
+          Sign Up for Tournament
         </button>
       </div>
     </section>
