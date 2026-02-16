@@ -453,12 +453,12 @@ function HeroSection({ onWaitlistClick }: { onWaitlistClick: () => void }) {
 
   return (
     <>
-      <section className="relative bg-black/80 backdrop-blur-sm text-white pt-12 md:pt-16 pb-32 overflow-hidden">
+      <section className="relative bg-black/80 backdrop-blur-sm text-white pt-12 md:pt-16 pb-16 overflow-hidden">
         <FloatingBackgroundElements />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
             <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
-              Debate like a sport.
+              Where Debate is a Sport
             </h1>
             <p className="text-xl md:text-2xl text-zinc-100 max-w-2xl mx-auto mb-3">
               1v1 ranked matches with transparent scoring.
@@ -524,7 +524,7 @@ function HeroSection({ onWaitlistClick }: { onWaitlistClick: () => void }) {
 // Why FORA Section
 function WhyForaSection() {
   return (
-    <section className="py-16 bg-black/60 backdrop-blur-sm border-y border-zinc-800">
+    <section className="py-8 bg-black/60 backdrop-blur-sm border-y border-zinc-800">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <p className="text-lg md:text-xl text-zinc-200 leading-relaxed">
           Short-form. Structured. Scored. <span className="text-violet-400 font-semibold">Every debate has a winner.</span>
